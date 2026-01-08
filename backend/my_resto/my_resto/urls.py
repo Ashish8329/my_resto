@@ -25,7 +25,7 @@ urlpatterns = [
             [
                 path(
                     "staff/",
-                    include("user.urls"),
+                    include("users.urls"),
                 ),
             ]
         ),

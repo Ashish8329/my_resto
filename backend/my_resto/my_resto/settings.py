@@ -31,7 +31,7 @@ SECRET_KEY = "django-insecure-pl1cxqxgw9v2ibbe&9deqoeva#^9qnvqgml(6xr^e0c=!lojs0
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL='users.User'
 
 # Application definition
 
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "restaurants",
+    "users"
 ]
 
 MIDDLEWARE = [

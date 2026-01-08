@@ -10,7 +10,7 @@ cmd
 
 
 # Environment variables
-# *.env
+*.env
 *.venv
 
 # Django-specific files

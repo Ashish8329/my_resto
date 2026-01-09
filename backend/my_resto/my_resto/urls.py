@@ -29,6 +29,10 @@ urlpatterns = [
                     "staff/",
                     include("users.urls"),
                 ),
+                path(
+                    "menu/",
+                    include("menus.urls"),
+                ),
             ]
         ),
     ),

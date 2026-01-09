@@ -19,3 +19,17 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RestoTable(BaseModel):
+    restaurant = models.ForeignKey(
+        Restaurant,
+        related_name='tables',
+        on_delete=models.CASCADE
+    )
+    QR_code = models.ImageField(
+        upload_to='qr_codes/',
+        null=True,
+        blank=True
+    )
+    

@@ -34,11 +34,15 @@ urlpatterns = [
                     "menu/",
                     include("menus.urls"),
                 ),
+                path(
+                    "order/",
+                    include("orders.urls"),
+                ),
             ]
         ),
     ),
     path("admin/", admin.site.urls),
-    path('swagger',schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
+    path('swagger/',schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]
 
 if settings.DEBUG:

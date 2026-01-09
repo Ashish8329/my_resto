@@ -10,6 +10,14 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+    def get_queryset(self):
+        queryset = Order.objects.prefetch_related('items__menu_item')
+        restaurant_id = self.request.query_params.get('restaurant_id')
+        if restaurant_id:
+            queryset = queryset.filter(restaurant_id=restaurant_id)
+
+        return queryset
+ 
     def create_order(self, data):
         order = Order.objects.create(
             restaurant_id=data.get('restaurant_id'),

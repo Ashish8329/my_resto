@@ -2,11 +2,23 @@ from rest_framework import serializers
 from .models import Order, OrderItem
 
 
+class OrderItemsSerializer(serializers.ModelSerializer):
+    menu_item = serializers.CharField(
+        source='menu_item.name',
+        read_only=True
+    )
+
+    class Meta:
+        model = OrderItem
+        fields = ['menu_item', 'quantity']
+
+
 class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemsSerializer(many=True, read_only=True)
     class Meta:
         model= Order
-        fields ='__all__'
-
+        fields = ['id', 'status', 'total_amount', 'items']
+        
 class OrderCreateSerializer(serializers.Serializer):
     restaurant_id = serializers.IntegerField()
     table_id = serializers.IntegerField()

@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-router.register(f'order', OrderViewSet, basename='order')
+router.register(f'', OrderViewSet, basename='order')
 router.register(f'order-item', OrderItemViewSet, basename='order-item')
 
 urlpatterns = [

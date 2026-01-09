@@ -7,6 +7,16 @@ class OrderSerializer(serializers.ModelSerializer):
         model= Order
         fields ='__all__'
 
+class OrderCreateSerializer(serializers.Serializer):
+    restaurant_id = serializers.IntegerField()
+    table_id = serializers.IntegerField()
+    items = serializers.ListField()
+
+    def validate_items(self, items):
+        if not items:
+            raise serializers.ValidationError("Order must contain items")
+        return items
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:

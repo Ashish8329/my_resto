@@ -20,6 +20,7 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 from .swagger import schema_view
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path(
@@ -41,6 +42,8 @@ urlpatterns = [
             ]
         ),
     ),
+    path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path("admin/", admin.site.urls),
     path('swagger/',schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui')
 ]

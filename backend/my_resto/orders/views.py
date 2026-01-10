@@ -17,30 +17,47 @@ class OrderViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(restaurant_id=restaurant_id)
 
         return queryset
- 
+    
+    def create_order_items(self, items, order):
+        total = 0
+        for item in items:
+            menu_item= MenuItem.objects.get(id=item.get('item_id'))
+
+            OrderItem.objects.create(
+                order= order,
+                menu_item=menu_item,
+                quantity=item.get('quantity'),
+                price = menu_item.price
+            )
+            total += menu_item.price * item.get('quantity')
+        return total
+    
     def create_order(self, data):
         order = Order.objects.create(
             restaurant_id=data.get('restaurant_id'),
             table_id=data.get('table_id'),
             status=OrderStatus.PENDING
         )
-        total = 0
-        for item in data.get('items'):
-            menu_item = MenuItem.objects.get(id=item.get('item_id'))
-
-            OrderItem.objects.create(
-                order=order,
-                menu_item=menu_item,
-                quantity=item.get('quantity'),
-                price=menu_item.price
-            )
-
-            total += menu_item.price * item.get('quantity') 
+        
+        total = self.create_order_items(data.get('items', []), order)
         
         order.total_amount = total
         order.save()
 
         return order
+    
+    def update_order(self, order,  data):
+        if data.get('status'):
+            order.status = data.get('status')
+        
+        OrderItem.objects.filter(order=order).delete() # TODO fix RBV
+
+        total = self.create_order_items(data.get('items',[]), order)
+        order.total_amount = total 
+        order.save()
+
+        return order
+
 
     def create(self, request, *args, **kwargs):
         serializer = OrderCreateSerializer(data=request.data)
@@ -52,6 +69,20 @@ class OrderViewSet(viewsets.ModelViewSet):
             OrderSerializer(order).data,
             status=201
         )
+
+    def partial_update(self, request, pk=None):
+        data = request.data 
+        order = self.get_object()
+        serializer = OrderCreateSerializer(data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        order = self.update_order(order, serializer.validated_data)
+
+        return Response(
+            OrderSerializer(order).data,
+            status=200
+        )
+
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):

@@ -2,8 +2,8 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Menu from './components/user/Menu'
 import { Route, Routes } from 'react-router-dom'
+import User from './components/user/User'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/menu' element={<Menu />} />
+        <Route path='/menu' element={<User />} />
       </Routes>
     </>
   )

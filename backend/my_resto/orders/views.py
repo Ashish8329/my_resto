@@ -4,11 +4,14 @@ from .models import OrderItem, Order
 from menus.models import MenuCategory, MenuItem
 from rest_framework.response import Response
 from .serializers import OrderSerializer, OrderItemSerializer, OrderCreateSerializer
-from base.choices import OrderStatus
+from base.choices import OrderStatus, UserRole
+from rest_framework.permissions import IsAuthenticated
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    # permission_classes = [IsAuthenticated,]
 
     def get_queryset(self):
         queryset = Order.objects.prefetch_related('items__menu_item')
@@ -71,18 +74,31 @@ class OrderViewSet(viewsets.ModelViewSet):
         )
 
     def partial_update(self, request, pk=None):
-        data = request.data 
-        order = self.get_object()
-        serializer = OrderCreateSerializer(data=data, partial=True)
-        serializer.is_valid(raise_exception=True)
+        '''
+        this view will update the order based on user role.
+        cheaf : update the status 
+        user : update the items
+        '''
+        try:
+            user_roles = list(request.user.groups.values_list('name', flat=True))
+            order = self.get_object()
+            data = request.data
+            serializer = self.get_serializer(order, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
 
-        order = self.update_order(order, serializer.validated_data)
+            if data.get('items'):
+                OrderItem.objects.filter(order=order).delete()
+                total_amount = self.create_order_items(data.get('items'), order)
+                order.total_amount = total_amount
+                serializer.validated_data['total_amount'] = total_amount
+                
+            serializer.save()
+            return Response(serializer.data, status=200)
 
-        return Response(
-            OrderSerializer(order).data,
-            status=200
-        )
-
+        except Exception as e:
+            return Response(
+                status=404, data=f'something went happend : {e}'
+            )
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):

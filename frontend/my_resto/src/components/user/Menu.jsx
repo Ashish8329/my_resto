@@ -1,9 +1,10 @@
 import React from 'react'
+import FoodCard from './FoodCard'
 
 const Menu = () => {
   return (
     <div>
-      <h1>this is menu page</h1>
+      <FoodCard />
     </div>
   )
 }

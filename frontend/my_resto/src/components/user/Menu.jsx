@@ -3,6 +3,7 @@ import FoodCard from "./FoodCard"
 import OrderButton from "./OrderButton"
 import OrderDetails from "./OrderDetails"
 import { useCart } from "./CartContext"
+import FloatingOrderButton from "./FloatingOrderButton"
 
 const foods = [
   {
@@ -47,11 +48,22 @@ function Menu() {
         />
       ))}
 
-      <OrderButton
+      {/* <OrderButton
         totalItems={totalItems}
         totalPrice={totalPrice}
         onOpen={() => setOpenOrder(true)}
+      /> */}
+      <FloatingOrderButton
+        totalItems={totalItems}
+        totalPrice={totalPrice}
+        onViewDetails={() => setOpenOrder(true)}
+        onOrder={() => {
+          // for now
+          alert("Proceed to checkout")
+          // later: navigate("/checkout") or call backend
+        }}
       />
+
 
       {openOrder && (
         <OrderDetails

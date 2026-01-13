@@ -1,26 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import FoodCard from "./FoodCard"
 import OrderButton from "./OrderButton"
 import OrderDetails from "./OrderDetails"
 import { useCart } from "./CartContext"
 import FloatingOrderButton from "./FloatingOrderButton"
+import { get, post, put } from "../../api/api"
+import { ENDPOINTS } from "../../constatns/api"
 
-const foods = [
-  {
-    id: 1,
-    name: "Paneer Butter Masala",
-    price: 249,
-    image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-    description: "Rich creamy tomato gravy with soft paneer cubes."
-  },
-  {
-    id: 2,
-    name: "Butter Naan",
-    price: 49,
-    image: "https://images.unsplash.com/photo-1604908554168-26c2b7b45c6f",
-    description: "Soft naan brushed with butter."
-  }
-]
 
 function Menu() {
   const {
@@ -33,7 +19,31 @@ function Menu() {
     decrement
   } = useCart()
 
+  const restaurant_id = 1
+  
+  const [foods, setFoods] = useState([])
   const [openOrder, setOpenOrder] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const data = await get(`${ENDPOINTS.RESTAURANT_MENU}?restaurant_id=${restaurant_id}`)
+        setFoods(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchOrders()
+  }, [])
+
+  console.log(foods)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>{error}</p>
 
   return (
     <div className="pb-24 space-y-4">

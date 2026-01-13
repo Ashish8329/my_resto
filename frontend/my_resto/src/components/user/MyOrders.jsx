@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import OrderStatusCard from './OrderStatusCard'
-import { get } from '../../api/api'
+import { get, put } from '../../api/api'
 
 const MyOrders = () => {
   const restaurant_id = 1
@@ -8,6 +8,7 @@ const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]) // array
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [canceling, setCanceling] = useState(false) 
 
   useEffect(() => {
     async function fetchOrderDetails() {
@@ -24,6 +25,24 @@ const MyOrders = () => {
     fetchOrderDetails()
   }, [])
 
+   async function handleCancel(orderId) {
+    const confirmed = window.confirm("Are you sure you want to cancel this order?")
+    if (!confirmed) return
+
+    try {
+      setCanceling(true)
+      const body = {'status':'CANCELLED'}
+      await put(`/order/${orderId}/`, body) // your backend endpoint
+      // Remove canceled order from state
+      setOrderDetails(prev => prev.filter(order => order.id !== orderId))
+      console.log(`Order ${orderId} canceled`)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setCanceling(false)
+    }
+  }
+
   if (loading) return <p>Loading...</p>
   if (error) return <p>{error}</p>
 
@@ -37,12 +56,8 @@ const MyOrders = () => {
           totalItems={order.items?.length || 0}
           totalPrice={order.total_amount}
           orderedAt="12:45 PM"
-          onCancel={() => {
-            if (confirm("Are you sure you want to cancel this order?")) {
-              console.log("Cancel order API call")
-            }
-          }}
-          
+          onCancel={() => {handleCancel(order.id)}
+          }
         />
       ))}
     </div>

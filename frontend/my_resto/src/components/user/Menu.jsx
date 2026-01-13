@@ -56,7 +56,8 @@ function Menu() {
       }
 
       const res = await post('/order/', body)
-      console.log(res)
+      
+      window.alert('order is placed successfully!')
 
     } catch (err) {
       setError(err.message)

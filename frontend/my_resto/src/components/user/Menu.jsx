@@ -20,7 +20,8 @@ function Menu() {
   } = useCart()
 
   const restaurant_id = 1
-  
+  const table_id = 1
+
   const [foods, setFoods] = useState([])
   const [openOrder, setOpenOrder] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -41,7 +42,29 @@ function Menu() {
     fetchOrders()
   }, [])
 
-  console.log(foods)
+  async function postOrder(order) {
+    try {
+      const temp_items = order.map(e => ({
+        item_id: e.id,
+        quantity: e.quantity,
+      }))
+
+      const body = {
+        'restaurant_id': restaurant_id,
+        'table_id': table_id,
+        'items': temp_items
+      }
+
+      const res = await post('/order/', body)
+      console.log(res)
+
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   if (loading) return <p>Loading...</p>
   if (error) return <p>{error}</p>
 
@@ -69,7 +92,7 @@ function Menu() {
         onViewDetails={() => setOpenOrder(true)}
         onOrder={() => {
           // for now
-          alert("Proceed to checkout")
+          postOrder(items)
           // later: navigate("/checkout") or call backend
         }}
       />

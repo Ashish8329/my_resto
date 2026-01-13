@@ -17,7 +17,7 @@ function OrderStatusCard({
   }
 
   // Business rule: cancel allowed only before ready
-  const canCancel = status === "pending" || status === "preparing"
+  const canCancel = status === "PENDING" || status === "IN_KITCHEN"
 
   return (
     <div className="w-full bg-white border rounded-xl shadow-sm p-4 flex flex-col gap-3">
@@ -60,7 +60,6 @@ function OrderStatusCard({
           Ordered at {orderedAt}
         </span>
       </div>
-
     </div>
   )
 }

@@ -10,13 +10,17 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
         queryset = super().get_queryset()
-        category_id =  self.request.query_params.get('category')
+        restaurant_id = self.request.query_params.get('restaurant_id')
+        category_id  =  self.request.query_params.get('category_id')
+        if restaurant_id:
+            queryset = queryset.filter(restaurant=restaurant_id)
+        
         if category_id:
             queryset = queryset.filter(menu_category=category_id)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return queryset
+
 
 class MenuCategoryViewSet(viewsets.ModelViewSet):
     queryset = MenuCategory.objects.all()

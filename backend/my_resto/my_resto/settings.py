@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'menus',
     'rest_framework',
     'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -166,3 +168,12 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,              # Invalidate old refresh tokens if rotating
     # ... other settings can be found in the official documentation
 }
+
+
+# Cours config
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import MyOrders from "./MyOrders"
 import Menu from "./Menu"
+import { CartProvider } from "./CartContext"
 
 function Navbar() {
   const [open, setOpen] = useState("menus")
@@ -13,9 +14,8 @@ function Navbar() {
         {/* Menus */}
         <div
           onClick={() => setOpen("menus")}
-          className={`flex-1 bg-white border rounded-md cursor-pointer ${
-            open === "menus" ? activeClasses : ""
-          }`}
+          className={`flex-1 bg-white border rounded-md cursor-pointer ${open === "menus" ? activeClasses : ""
+            }`}
         >
           <h2 className="font-semibold mb-2 text-center">Menus</h2>
         </div>
@@ -23,9 +23,8 @@ function Navbar() {
         {/* My Orders */}
         <div
           onClick={() => setOpen("orders")}
-          className={`flex-1 bg-white border rounded-md cursor-pointer ${
-            open === "orders" ? activeClasses : ""
-          }`}
+          className={`flex-1 bg-white border rounded-md cursor-pointer ${open === "orders" ? activeClasses : ""
+            }`}
         >
           <h2 className="font-semibold mb-2 text-center">My Orders</h2>
         </div>
@@ -33,7 +32,13 @@ function Navbar() {
 
       {/* Content */}
       <div className="mt-4">
-        {open === "orders" ? <MyOrders /> : <Menu />}
+        {open === "orders" ? <MyOrders /> :
+        <CartProvider>
+          <Menu />
+
+
+        </CartProvider>
+        }
       </div>
     </div>
   )

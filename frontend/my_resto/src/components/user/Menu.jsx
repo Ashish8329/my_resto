@@ -1,55 +1,67 @@
-import React, { useState } from 'react'
-import FoodCard from './FoodCard'
+import { useState } from "react"
+import FoodCard from "./FoodCard"
+import OrderButton from "./OrderButton"
+import OrderDetails from "./OrderDetails"
+import { useCart } from "./CartContext"
 
- 
-
-const Menu = () => {
-
-  const food = {
+const foods = [
+  {
     id: 1,
     name: "Paneer Butter Masala",
     price: 249,
     image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
     description: "Rich creamy tomato gravy with soft paneer cubes."
+  },
+  {
+    id: 2,
+    name: "Butter Naan",
+    price: 49,
+    image: "https://images.unsplash.com/photo-1604908554168-26c2b7b45c6f",
+    description: "Soft naan brushed with butter."
   }
+]
 
-  const [cart, setCart] = useState({})
+function Menu() {
+  const {
+    cart,
+    items,
+    totalItems,
+    totalPrice,
+    addItem,
+    increment,
+    decrement
+  } = useCart()
 
-  console.log(cart)
-  const addItem = (food) => {
-    setCart(prev => ({
-      ...prev,
-      [food.id]: 1
-    }))
-  }
-
-  const increment = (id) => {
-    setCart(prev => ({
-      ...prev,
-      [id]: prev[id] + 1
-    }))
-  }
-
-  const decrement = (id) => {
-    setCart(prev => {
-      if (prev[id] === 1) {
-        const copy = { ...prev }
-        delete copy[id]
-        return copy
-      }
-      return { ...prev, [id]: prev[id] - 1 }
-    })
-  }
+  const [openOrder, setOpenOrder] = useState(false)
 
   return (
-    <div>
-      <FoodCard
-        food={food}
-        quantity={cart[food.id] || 0}
-        onAdd={() => addItem(food)}
-        onIncrement={() => increment(food.id)}
-        onDecrement={() => decrement(food.id)}
+    <div className="pb-24 space-y-4">
+      {foods.map(food => (
+        <FoodCard
+          key={food.id}
+          food={food}
+          quantity={cart[food.id]?.quantity || 0}
+          onAdd={() => addItem(food)}
+          onIncrement={() => increment(food.id)}
+          onDecrement={() => decrement(food.id)}
+        />
+      ))}
+
+      <OrderButton
+        totalItems={totalItems}
+        totalPrice={totalPrice}
+        onOpen={() => setOpenOrder(true)}
       />
+
+      {openOrder && (
+        <OrderDetails
+          items={items}
+          totalPrice={totalPrice}
+          onClose={() => setOpenOrder(false)}
+          onIncrement={increment}
+          onDecrement={decrement}
+        />
+      )}
     </div>
   )
 }

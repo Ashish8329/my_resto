@@ -12,5 +12,5 @@ class RestaurantAdmin(BaseAdmin):
 
 @admin.register(RestoTable)
 class RestaurantTableAdmin(BaseAdmin):
-    list_display = ("restaurant", "qr_token", "created_at")
+    list_display = ('id',"restaurant", "qr_token", "created_at")
     readonly_fields = ("qr_token", "created_at", "updated_at")

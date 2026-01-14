@@ -34,7 +34,7 @@ class RestoTable(BaseModel):
             self.qr_token = generate_qr_token()
 
         if not self.QR_code:
-            qr_url = f"{settings.FRONTEND_URL}/scan/{self.qr_token}"
+            qr_url = f"{settings.FRONTEND_URL}/scan/{self.restaurant_id}/{self.qr_token}"
             qr_img = qrcode.make(qr_url)
             buffer = BytesIO()
             qr_img.save(buffer, format="PNG")

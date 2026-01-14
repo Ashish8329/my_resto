@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .serializers import OrderSerializer, OrderItemSerializer, OrderCreateSerializer
 from base.choices import OrderStatus, UserRole
 from rest_framework.permissions import IsAuthenticated
-
+from restaurants.models import RestoTable
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -63,7 +63,12 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 
     def create(self, request, *args, **kwargs):
-        serializer = OrderCreateSerializer(data=request.data)
+        data = request.data
+        if request.data.get('qr_token'):
+            table = RestoTable.objects.get(qr_token=request.data['qr_token'])
+            data['table_id'] = table.id
+
+        serializer = OrderCreateSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
         order = self.create_order(serializer.validated_data)

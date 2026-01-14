@@ -8,7 +8,7 @@ const MyOrders = () => {
   const [orderDetails, setOrderDetails] = useState([]) // array
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [canceling, setCanceling] = useState(false) 
+  const [canceling, setCanceling] = useState(false)
 
   useEffect(() => {
     async function fetchOrderDetails() {
@@ -25,13 +25,13 @@ const MyOrders = () => {
     fetchOrderDetails()
   }, [])
 
-   async function handleCancel(orderId) {
+  async function handleCancel(orderId) {
     const confirmed = window.confirm("Are you sure you want to cancel this order?")
     if (!confirmed) return
 
     try {
       setCanceling(true)
-      const body = {'status':'CANCELLED'}
+      const body = { 'status': 'CANCELLED' }
       await put(`/order/${orderId}/`, body) // your backend endpoint
       // Remove canceled order from state
       setOrderDetails(prev => prev.filter(order => order.id !== orderId))
@@ -56,7 +56,7 @@ const MyOrders = () => {
           totalItems={order.items?.length || 0}
           totalPrice={order.total_amount}
           orderedAt="12:45 PM"
-          onCancel={() => {handleCancel(order.id)}
+          onCancel={() => { handleCancel(order.id) }
           }
         />
       ))}

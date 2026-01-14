@@ -33,7 +33,7 @@ function Menu() {
         const data = await get(`${ENDPOINTS.RESTAURANT_MENU}?restaurant_id=${restaurant_id}`)
         setFoods(data)
       } catch (err) {
-        setError(err.message)
+        setError(err.message) 
       } finally {
         setLoading(false)
       }
@@ -58,7 +58,8 @@ function Menu() {
       const res = await post('/order/', body)
       
       window.alert('order is placed successfully!')
-
+      location.reload()  // TODO
+      setOpenOrder(false)
     } catch (err) {
       setError(err.message)
     } finally {

@@ -1,12 +1,16 @@
 from django.contrib import admin
+
 from base.base_admin import BaseAdmin
+
 from .models import Restaurant, RestoTable
+
 
 @admin.register(Restaurant)
 class RestaurantAdmin(BaseAdmin):
-    pass
+    list_display = ("name", "is_active", "created_at")
 
 
 @admin.register(RestoTable)
 class RestaurantTableAdmin(BaseAdmin):
-    pass
+    list_display = ("restaurant", "qr_token", "created_at")
+    readonly_fields = ("qr_token", "created_at", "updated_at")

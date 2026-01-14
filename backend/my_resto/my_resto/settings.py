@@ -31,7 +31,7 @@ SECRET_KEY = "django-insecure-pl1cxqxgw9v2ibbe&9deqoeva#^9qnvqgml(6xr^e0c=!lojs0
 DEBUG = True
 
 ALLOWED_HOSTS = []
-AUTH_USER_MODEL='users.User'
+AUTH_USER_MODEL = "users.User"
 
 # Application definition
 
@@ -44,15 +44,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "restaurants",
     "users",
-    'orders',
-    'menus',
-    'rest_framework',
-    'drf_yasg',
-    'corsheaders'
+    "orders",
+    "menus",
+    "rest_framework",
+    "drf_yasg",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -116,8 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
 
@@ -138,7 +138,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 # Default primary key field type
@@ -148,24 +148,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # swagger config
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
     },
-    'USE_SESSION_AUTH': False,
+    "USE_SESSION_AUTH": False,
 }
 
 # jwt config
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),  # e.g., 5 minutes for security
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),   # e.g., 1 day for convenience
-    'ROTATE_REFRESH_TOKENS': True,                 # Recommended for security with refresh tokens
-    'BLACKLIST_AFTER_ROTATION': True,              # Invalidate old refresh tokens if rotating
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=5),  # e.g., 5 minutes for security
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # e.g., 1 day for convenience
+    "ROTATE_REFRESH_TOKENS": True,  # Recommended for security with refresh tokens
+    "BLACKLIST_AFTER_ROTATION": True,  # Invalidate old refresh tokens if rotating
     # ... other settings can be found in the official documentation
 }
 
@@ -177,3 +173,5 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")

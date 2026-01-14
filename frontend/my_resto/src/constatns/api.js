@@ -5,4 +5,5 @@ export const ENDPOINTS = {
   LOGIN: "/auth/login",
   ORDERS: "/orders",
   CANCEL_ORDER: "/orders/cancel",
+  SCANNER : "/staff/scan"
 }

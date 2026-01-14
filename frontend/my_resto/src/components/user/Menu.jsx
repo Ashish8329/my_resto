@@ -6,6 +6,7 @@ import { useCart } from "./CartContext"
 import FloatingOrderButton from "./FloatingOrderButton"
 import { get, post, put } from "../../api/api"
 import { ENDPOINTS } from "../../constatns/api"
+import { get_localstorage } from "../utils"
 
 
 function Menu() {
@@ -19,8 +20,9 @@ function Menu() {
     decrement
   } = useCart()
 
-  const restaurant_id = 1
-  const table_id = 1
+  const context = get_localstorage('qr_context')
+  const restaurant_id = context.restaurant_id
+  const table_id = context.table_id
 
   const [foods, setFoods] = useState([])
   const [openOrder, setOpenOrder] = useState(false)
@@ -33,7 +35,7 @@ function Menu() {
         const data = await get(`${ENDPOINTS.RESTAURANT_MENU}?restaurant_id=${restaurant_id}`)
         setFoods(data)
       } catch (err) {
-        setError(err.message) 
+        setError(err.message)
       } finally {
         setLoading(false)
       }
@@ -56,7 +58,7 @@ function Menu() {
       }
 
       const res = await post('/order/', body)
-      
+
       window.alert('order is placed successfully!')
       location.reload()  // TODO
       setOpenOrder(false)

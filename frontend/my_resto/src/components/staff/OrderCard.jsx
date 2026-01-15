@@ -23,9 +23,9 @@ const OrderCard = ({
 
         <span
           className={`text-xs px-3 py-1 rounded-full font-medium
-            ${status === "pending" && "bg-yellow-100 text-yellow-800"}
-            ${status === "preparing" && "bg-blue-100 text-blue-800"}
-            ${status === "ready" && "bg-green-100 text-green-800"}
+            ${status === "PENDING" && "bg-yellow-100 text-yellow-800"}
+            ${status === "IN_KITCHEN" && "bg-blue-100 text-blue-800"}
+            ${status === "READY" && "bg-green-100 text-green-800"}
           `}
         >
           {status.toUpperCase()}
@@ -51,7 +51,7 @@ const OrderCard = ({
 
       {/* Actions */}
       <div className="flex gap-3">
-        {status === "pending" && (
+        {status === "PENDING" && (
           <button
             onClick={onStart}
             className="flex-1 bg-blue-600 text-white py-2 rounded-xl text-sm font-medium active:scale-95 transition"
@@ -60,7 +60,7 @@ const OrderCard = ({
           </button>
         )}
 
-        {status === "preparing" && (
+        {status === "IN_KITCHEN" && (
           <button
             onClick={onReady}
             className="flex-1 bg-green-600 text-white py-2 rounded-xl text-sm font-medium active:scale-95 transition"

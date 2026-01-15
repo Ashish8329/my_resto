@@ -30,7 +30,6 @@ def get_chef_orders(request, restaurant_id):
         Order.objects
         .filter(
             restaurant=restaurant_id,
-            status=OrderStatus.PENDING
         )
         .select_related('table')
         .prefetch_related('items__menu_item')

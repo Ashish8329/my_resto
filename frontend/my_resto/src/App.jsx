@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import User from './components/user/User'
 import UserLanding from './components/user/UserLanding'
 import ChefIndex from './components/staff/Index'
+import AdminIndex from './components/admin/Index'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,7 +16,9 @@ function App() {
       <Routes>
         <Route path='/menu' element={<User />} />
         <Route path='/scan/:qrToken' element={<UserLanding />} />
+
         <Route path='/staff/chef' element={<ChefIndex />} />
+        <Route path='/staff/admin' element={<AdminIndex />} />
       </Routes>
     </>
   )

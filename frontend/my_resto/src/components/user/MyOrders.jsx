@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import OrderStatusCard from './OrderStatusCard'
 import { get, put } from '../../api/api'
+import { get_localstorage } from '../utils'
+import { LocalhostCred } from '../../constatns/api'
 
 const MyOrders = () => {
-  const restaurant_id = 1
-  const table_id = 1
+  const context = get_localstorage(LocalhostCred)
+  const restaurant_id = context.restaurant_id
+  const table_id = context.table_id
+
   const [orderDetails, setOrderDetails] = useState([]) // array
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,7 +17,7 @@ const MyOrders = () => {
   useEffect(() => {
     async function fetchOrderDetails() {
       try {
-        const data = await get(`/order/?restaurant_id=${restaurant_id}`)
+        const data = await get(`/order/?restaurant_id=${restaurant_id}&is_active=1&table_id=${table_id}`)
         setOrderDetails(data)
       } catch (err) {
         setError(err.message)
@@ -42,8 +46,9 @@ const MyOrders = () => {
       setCanceling(false)
     }
   }
-
+  
   if (loading) return <p>Loading...</p>
+  if (orderDetails.length === 0) return  <p>No order found in this table</p>
   if (error) return <p>{error}</p>
 
   return (

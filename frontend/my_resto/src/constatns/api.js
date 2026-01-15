@@ -7,3 +7,5 @@ export const ENDPOINTS = {
   CANCEL_ORDER: "/orders/cancel",
   SCANNER : "/staff/scan"
 }
+
+export const LocalhostCred = 'qr_context'

@@ -16,8 +16,17 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Order.objects.prefetch_related('items__menu_item')
         restaurant_id = self.request.query_params.get('restaurant_id')
+        is_active = self.request.query_params.get('is_active')
+        table_id = self.request.query_params.get('table_id')
+        
+        if is_active:
+            queryset = queryset.filter(is_active=is_active)
+
         if restaurant_id:
-            queryset = queryset.filter(restaurant_id=restaurant_id)
+            queryset = queryset.filter(restaurant=restaurant_id)
+        
+        if table_id:
+            queryset = queryset.filter(table=table_id)
 
         return queryset
     

@@ -19,6 +19,10 @@ class Order(BaseModel):
         verbose_name="Total Amount",
         default=0
     )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Is this order active?"
+    )
     status = models.CharField(
         max_length=20,
         choices=OrderStatus.choices,

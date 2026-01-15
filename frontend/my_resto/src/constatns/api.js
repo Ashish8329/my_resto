@@ -5,7 +5,8 @@ export const ENDPOINTS = {
   LOGIN: "/auth/login",
   ORDERS: "/orders",
   CANCEL_ORDER: "/orders/cancel",
-  SCANNER : "/staff/scan"
+  SCANNER : "/staff/scan",
+  KITCHEN_GET_ORDERS : "staff/chef/orders"
 }
 
 export const LocalhostCred = 'qr_context'

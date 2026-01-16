@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.views import APIView
 from restaurants.models import RestoTable
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -8,6 +9,9 @@ from orders.models import Order, OrderItem
 from base.choices import OrderStatus
 from datetime import datetime, timedelta, timezone
 from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 @api_view(['GET'])
@@ -63,3 +67,31 @@ def get_chef_orders(request, restaurant_id):
 
     return Response(res)
 
+class LoginView(APIView):
+    def post(self, request):
+        user = authenticate(
+            username=request.data.get('username'),
+            password=request.data.get('password')
+        )
+
+        if not user:
+            return Response(
+                {'error': 'Invalid credentials'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        refresh = RefreshToken.for_user(user)
+
+        response = Response({
+            "access_token" : str(refresh.access_token)
+        })
+
+        response.set_cookie(
+            key='refresh_token',
+            value=str(refresh),
+            httponly=True,
+            samesite="strict",
+            max_age=7*24*60*60
+        )
+
+        return response

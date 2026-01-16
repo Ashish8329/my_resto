@@ -2,10 +2,13 @@ from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet
 from restaurants.models import RestoTable
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
 from orders.models import Order, OrderItem
 from base.choices import OrderStatus
 from datetime import datetime, timedelta, timezone
+from rest_framework.authtoken.models import Token
+
 # Create your views here.
 @api_view(['GET'])
 def scan_qr(request, qr_token):
@@ -22,6 +25,7 @@ def scan_qr(request, qr_token):
     })
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_chef_orders(request, restaurant_id):
     """
     Returns active kitchen orders
@@ -58,3 +62,4 @@ def get_chef_orders(request, restaurant_id):
         })
 
     return Response(res)
+

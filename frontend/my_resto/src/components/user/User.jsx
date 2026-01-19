@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 
 const User = () => {
   return (
-    <div>
+    <div id='menu'>
       <Navbar />
     </div>
   )

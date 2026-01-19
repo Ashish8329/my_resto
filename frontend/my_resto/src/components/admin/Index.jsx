@@ -1,10 +1,12 @@
 import React from 'react'
+import AdminLayout from './AdminLayout'
+import Dashboard from './Dashboard'
 
 const Index = () => {
   return (
-    <div>
-      <h1>welcome to admin panel</h1>
-    </div>
+     <AdminLayout>
+      <Dashboard />
+     </AdminLayout>
   )
 }
 

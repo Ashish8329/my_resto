@@ -6,8 +6,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from orders.models import Order, OrderItem
-from base.choices import OrderStatus
+from base.choices import OrderStatus, UserRole
 from datetime import datetime, timedelta, timezone
+
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework import status
@@ -79,11 +80,19 @@ class LoginView(APIView):
                 data = {'message' : 'Invalid credentials'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        
+    
+        user_roles = list(user.groups.values_list('name', flat=True))
+
+        if UserRole.OWNER.value in user_roles:
+            user_role = UserRole.OWNER
+        else:
+            user_role = UserRole.CHEF
+
         refresh = RefreshToken.for_user(user)
 
         response = Response({
-            "access_token" : str(refresh.access_token)
+            "access_token" : str(refresh.access_token),
+            "user_role" : user_role
         },
         status=200)
 

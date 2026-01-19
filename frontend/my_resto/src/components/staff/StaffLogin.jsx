@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { post } from '../../api/api'
+import { set_localstorage } from '../utils'
+import { TOKEN_KEY } from '../../constatns/api'
 
 
 
@@ -20,8 +22,13 @@ const StaffLogin = () => {
       'password' : password
     }
      
-    await post('/staff/login/', data)
+    const res = await post('/staff/login/', data)
     console.log('success: navigate to next page')
+
+    if (!res.access_token) {
+      setError('something went wrong')
+    }
+    set_localstorage(TOKEN_KEY, res.access_token)
 
     } catch (err) {
       setError(err.message)

@@ -11,3 +11,4 @@ export const ENDPOINTS = {
 
 export const LocalhostCred = 'qr_context'
 export const TOKEN_KEY = 'My_Resto_token'
+export const ADMIN_KEY = 'OWNER'

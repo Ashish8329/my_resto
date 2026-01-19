@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { post } from '../../api/api'
 import { set_localstorage } from '../utils'
-import { TOKEN_KEY } from '../../constatns/api'
+import { ADMIN_KEY, TOKEN_KEY } from '../../constatns/api'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -10,6 +11,8 @@ const StaffLogin = () => {
   const [password, SetPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const navigate = useNavigate();
+
  
 
   async function handlesubmit (e) {
@@ -29,6 +32,12 @@ const StaffLogin = () => {
       setError('something went wrong')
     }
     set_localstorage(TOKEN_KEY, res.access_token)
+
+    if (res.user_role === ADMIN_KEY) {
+      navigate('/staff/admin')
+    } else {
+      navigate('/staff/chef')
+    }
 
     } catch (err) {
       setError(err.message)

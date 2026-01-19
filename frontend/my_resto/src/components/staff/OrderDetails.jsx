@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import { API_BASE_URL, ENDPOINTS } from "../../constatns/api";
-import { put } from "../../api/api";
+import { get, put } from "../../api/api";
 
 const OrderDetails = () => {
     const [orders, setOrders] = useState([]);
@@ -12,17 +12,13 @@ const OrderDetails = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch(
-                `${API_BASE_URL}/${ENDPOINTS.KITCHEN_GET_ORDERS}/${restaurantId}`
+            const res = await get(
+                `/${ENDPOINTS.KITCHEN_GET_ORDERS}/${restaurantId}`
             );
 
-            if (!res.ok) {
-                throw new Error("Failed to fetch orders");
-            }
-
-            const data = await res.json();
-            setOrders(data);
+            setOrders(res);
         } catch (error) {
+            setError(true)
             console.error("Error fetching chef orders:", error);
         } finally {
             setLoading(false);

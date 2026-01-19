@@ -1,6 +1,22 @@
+import { get_localstorage } from "../components/utils"
+import { ADMIN_KEY, LocalhostCred, TOKEN_KEY } from "../constatns/api"
+
 const BASE_URL = import.meta.env.VITE_API_URL
 
 async function handleResponse(res) {
+
+  // 🚨 Handle Unauthorized globally
+  if (res.status === 401) {
+    localStorage.removeItem(TOKEN_KEY)
+
+    // optional: remove other auth data
+    localStorage.removeItem(LocalhostCred)
+
+    // redirect to login
+    window.dispatchEvent(new Event("unauthorized"))
+    return
+  }
+
   const data = await res.json().catch(() => null)
 
   if (!res.ok) {
@@ -50,6 +66,6 @@ export async function del(url) {
 }
 
 function authHeader() {
-  const token = localStorage.getItem("token")
+  const token = get_localstorage(TOKEN_KEY)
   return token ? { Authorization: `Bearer ${token}` } : {}
 }

@@ -26,8 +26,6 @@ const StaffLogin = () => {
     }
      
     const res = await post('/staff/login/', data)
-    console.log('success: navigate to next page')
-
     if (!res.access_token) {
       setError('something went wrong')
     }

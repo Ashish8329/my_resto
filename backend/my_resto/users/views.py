@@ -76,7 +76,7 @@ class LoginView(APIView):
 
         if not user:
             return Response(
-                {'error': 'Invalid credentials'},
+                data = {'message' : 'Invalid credentials'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
@@ -84,7 +84,8 @@ class LoginView(APIView):
 
         response = Response({
             "access_token" : str(refresh.access_token)
-        })
+        },
+        status=200)
 
         response.set_cookie(
             key='refresh_token',

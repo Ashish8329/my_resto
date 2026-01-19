@@ -7,6 +7,7 @@ import User from './components/user/User'
 import UserLanding from './components/user/UserLanding'
 import ChefIndex from './components/staff/Index'
 import AdminIndex from './components/admin/Index'
+import StaffLogin from './components/staff/StaffLogin'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
 
         <Route path='/staff/chef' element={<ChefIndex />} />
         <Route path='/staff/admin' element={<AdminIndex />} />
+        <Route path='/staff/login' element={<StaffLogin />} />
       </Routes>
     </>
   )

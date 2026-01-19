@@ -14,7 +14,12 @@ async function handleResponse(res) {
 
     // redirect to login
     window.dispatchEvent(new Event("unauthorized"))
-    return
+
+    if (res.message) {
+      throw new Error(res.message)
+    }else {
+      return
+    }
   }
 
   const data = await res.json().catch(() => null)

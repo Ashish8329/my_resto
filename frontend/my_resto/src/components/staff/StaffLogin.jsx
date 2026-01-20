@@ -32,8 +32,11 @@ const StaffLogin = () => {
     set_localstorage(TOKEN_KEY, res.access_token)
 
     if (res.user_role === ADMIN_KEY) {
-      navigate('/staff/admin')
+      set_localstorage('ROLE', 'admin')
+      navigate('/admin/dashboard')
+
     } else {
+      set_localstorage('ROLE', 'chef')
       navigate('/staff/chef')
     }
 

@@ -1,17 +1,21 @@
 import React from 'react'
 import { get_localstorage } from './utils'
 import { ADMIN_KEY, TOKEN_KEY } from '../constatns/api'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
-    const token = get_localstorage(TOKEN_KEY)
-    if(!token) {
-        
-        return <Navigate to='/staff/login' replace />
-    }
+const ProtectedRoute = ({ allowedRoles }) => {
+  const token = localStorage.getItem(TOKEN_KEY); // or from context
+  const role = localStorage.getItem("ROLE");   // admin / staff
 
-    return children
-   
-}
+  if (!token) {
+    return <Navigate to="/staff/login" replace />;
+  }
+  console.log(allowedRoles, role)
+//   if (allowedRoles && !allowedRoles.includes(role)) {
+//     return <Navigate to="/unauthorized" replace />;
+//   }
 
-export default ProtectedRoute
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

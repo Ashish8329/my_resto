@@ -5,10 +5,15 @@ import './App.css'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import User from './components/user/User'
 import UserLanding from './components/user/UserLanding'
-import ChefIndex from './components/staff/Index'
-import AdminIndex from './components/admin/Index'
+import ChefLayout from './components/staff/Index'
+import AdminLayout from './components/admin/Index'
 import StaffLogin from './components/staff/StaffLogin'
 import ProtectedRoute from './components/ProtectedRoute'
+import Dashboard from './components/admin/Dashboard'
+import AdminMenu from './components/admin/Menu'
+import Table from './components/admin/Table'
+import Staff from './components/admin/Staff'
+import Report from './components/admin/Report'
 
 function App() {
   const navigate = useNavigate()
@@ -25,27 +30,31 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/menu' element={<User />} />
-        <Route path='/scan/:qrToken' element={<UserLanding />} />
+        {/* Public */}
+        <Route path="/menu" element={<User />} />
+        <Route path="/scan/:qrToken" element={<UserLanding />} />
+        <Route path="/staff/login" element={<StaffLogin />} />
 
+        {/* Chef Protected */}
+        <Route element={<ProtectedRoute allowedRoles={["chef"]} />}>
+          <Route path="/staff/chef" element={<ChefLayout />}>
+            <Route index element={<div>Chef Dashboard</div>} />
+          </Route>
+        </Route>
 
-        <Route
-          path="/staff/chef"
-          element={
-            <ProtectedRoute>
-              <ChefIndex />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/staff/admin"
-          element={
-            <ProtectedRoute>
-              <AdminIndex />
-            </ProtectedRoute>
-          }
-        />
+        {/* Admin Protected */}
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index path='dashboard' element={<Dashboard />} />
+            <Route path="orders" element={<div>Orders</div>} />
+            <Route path="menu" element={<AdminMenu />} />
+            <Route path="tables" element={<Table />} />
+            <Route path="staffs" element={<Staff /> } />
+            <Route path="reports" element={<Report />} />
+            
+            
+          </Route>
+        </Route>
         <Route path='/staff/login' element={<StaffLogin />} />
       </Routes>
     </>

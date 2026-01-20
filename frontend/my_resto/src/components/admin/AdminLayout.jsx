@@ -1,7 +1,20 @@
 import { useState } from "react";
+import { Outlet, NavLink, useLocation } from 'react-router-dom'
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const titleMap = {
+  "/admin/dashboard": "Dashboard",
+  "/admin/orders": "Orders",
+  "/admin/menu": "Menu",
+  "/admin/tables": "Table Management",
+  "/admin/staffs": "Staff Management",
+  "/admin/reports": "Reports",
+};
+
+const location = useLocation();
+const title = titleMap[location.pathname] || "Admin";
 
   return (
     <div className="min-h-screen bg-slate-100 flex">
@@ -28,12 +41,14 @@ const AdminLayout = ({ children }) => {
 
           {/* Nav */}
           <nav className="flex-1 px-3 py-4 space-y-1">
-            <NavItem label="Dashboard" active />
-            <NavItem label="Orders" />
-            <NavItem label="Menu" />
-            <NavItem label="Tables" />
-            <NavItem label="Reports" />
+            <NavItem to="/admin/dashboard" label="Dashboard" />
+            <NavItem to="/admin/orders" label="Orders" />
+            <NavItem to="/admin/menu" label="Menu" />
+            <NavItem to="/admin/tables" label="Tables" />
+            <NavItem to="/admin/staffs" label="Staff" /> 
+            <NavItem to="/admin/reports" label="Reports" />
           </nav>
+
 
           {/* Footer */}
           <div className="px-6 py-4 text-xs text-slate-500 border-t border-slate-800">
@@ -80,7 +95,7 @@ const AdminLayout = ({ children }) => {
         <main className="flex-1 p-4 md:p-6">
           <div className="max-w-7xl mx-auto">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-              {children}
+              <Outlet />
             </div>
           </div>
         </main>
@@ -89,16 +104,21 @@ const AdminLayout = ({ children }) => {
   );
 };
 
-const NavItem = ({ label, active }) => (
-  <button
-    className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition
-    ${active
+
+const NavItem = ({ to, label }) => (
+  <NavLink
+    to={to}
+    className={({ isActive }) =>
+      `w-full block px-4 py-2.5 rounded-lg text-sm transition
+      ${isActive
         ? "bg-slate-800 text-white"
         : "text-slate-300 hover:bg-slate-800 hover:text-white"
-      }`}
+      }`
+    }
   >
     {label}
-  </button>
+  </NavLink>
 );
+
 
 export default AdminLayout;

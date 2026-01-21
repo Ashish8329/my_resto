@@ -25,8 +25,20 @@ class RestoTable(BaseModel):
     restaurant = models.ForeignKey(
         Restaurant, related_name="tables", on_delete=models.CASCADE
     )
+    table_number = models.CharField(
+        max_length=10, null=True, blank=True, verbose_name="Table Number"
+    )
     qr_token = models.CharField(unique=True, max_length=32, editable=False)
     QR_code = models.ImageField(upload_to="qr_codes/", null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["restaurant", "table_number"],
+                name="unique_table_number_per_restaurant",
+            )
+        ]
 
     def save(self, *args, **kwargs):
 
@@ -34,11 +46,13 @@ class RestoTable(BaseModel):
             self.qr_token = generate_qr_token()
 
         if not self.QR_code:
-            qr_url = f"{settings.FRONTEND_URL}/scan/{self.restaurant_id}/{self.qr_token}"
+            qr_url = (
+                f"{settings.FRONTEND_URL}/scan/{self.restaurant_id}/{self.qr_token}"
+            )
             qr_img = qrcode.make(qr_url)
             buffer = BytesIO()
             qr_img.save(buffer, format="PNG")
 
             file_name = f"table_{self.restaurant.id}_{self.qr_token}.png"
             self.QR_code.save(file_name, File(buffer), save=False)
-        return super(*args, **kwargs).save()
+        return super().save(*args, **kwargs)

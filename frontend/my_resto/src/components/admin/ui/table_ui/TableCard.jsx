@@ -20,11 +20,11 @@ const TableCard = ({ table }) => {
       >
         <span className="text-[10px] text-slate-400">TABLE</span>
         <span className="text-2xl font-semibold text-slate-800">
-          {table.number}
+          {table.table_number}
         </span>
       </div>
 
-      <TableQRButton tableId={table.id} disabled={!table.active} />
+      <TableQRButton tableId={table.id} disabled={!table.is_active} />
       <TableActiveToggle table={table} />
     </div>
   );

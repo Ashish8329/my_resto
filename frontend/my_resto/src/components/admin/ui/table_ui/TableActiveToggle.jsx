@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const TableActiveToggle = ({ table }) => {
-  const [active, setActive] = useState(table.active);
+  const [active, setActive] = useState(table.is_active);
 
   const toggleStatus = () => {
     setActive(!active);

@@ -6,7 +6,11 @@ export const ENDPOINTS = {
   ORDERS: "/orders",
   CANCEL_ORDER: "/orders/cancel",
   SCANNER : "/staff/scan",
-  KITCHEN_GET_ORDERS : "staff/chef/orders"
+  KITCHEN_GET_ORDERS : "staff/chef/orders",
+
+  // Table 
+  TABLE_QR_UPDATE: "/restaurants/update-qr-code",
+  TABLE_ENDPOINT : "/restaurant/restaurant-tables"
 }
 
 export const LocalhostCred = 'qr_context'

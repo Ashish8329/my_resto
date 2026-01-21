@@ -13,7 +13,7 @@ export const ENDPOINTS = {
   TABLE_ENDPOINT : "/restaurant/restaurant-tables",
 
   // menu 
-  MANAGE_MENU_ITEMS: "/menu/manage-items/",
+  MANAGE_MENU_ITEMS: "/menu/manage-items",
 }
 
 export const LocalhostCred = 'qr_context'

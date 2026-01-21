@@ -3,7 +3,7 @@ import MenuList from "./MenuList";
 import MenuFormModal from "./MenuFormModal";
 import PageHeader from "./PageHeader";
 import MenuTableHeader from "./MenuTableHeader";
-import { get, post } from "../../../../api/api";
+import { del, get, patch, post } from "../../../../api/api";
 import { ENDPOINTS } from "../../../../constatns/api";
 import { get_localstorage } from "../../../utils";
 
@@ -39,11 +39,34 @@ const MenuPage = () => {
     async function addMenuApi(menu) {
         try {
             const restaurant_data = { restaurant: restaurant_id };
-            const data = await post(ENDPOINTS.MANAGE_MENU_ITEMS, { ...menu, ...restaurant_data });
+            const data = await post(ENDPOINTS.MANAGE_MENU_ITEMS + '/', { ...menu, ...restaurant_data });
             setMenus((prev) => [...prev, data]);
         } catch (error) {   
             console.error('Error adding menu:', error);
             setError('Failed to add menu item.');
+        }
+    }
+
+    async function updateMenuApi(id, updates) {
+        try {
+            const restaurant_data = { restaurant: restaurant_id };
+            const data = await patch(ENDPOINTS.MANAGE_MENU_ITEMS + '/' + id + '/', { ...updates, ...restaurant_data });
+            setMenus((prev) =>
+                prev.map((m) => (m.id === id ? { ...m, ...data } : m))
+            );
+        } catch (error) {
+            console.error('Error updating menu:', error);
+            setError('Failed to update menu item.');
+        }   
+    }
+
+    async function deleteMenuApi(id) {
+        try {
+            await del(ENDPOINTS.MANAGE_MENU_ITEMS + '/' + id + '/');
+            setMenus((prev) => prev.filter((m) => m.id !== id));
+        } catch (error) {
+            console.error('Error deleting menu:', error);
+            setError('Failed to delete menu item.');
         }
     }
 
@@ -71,14 +94,16 @@ const MenuPage = () => {
     };
 
     const updateMenu = (id, updates) => {
-        setMenus((prev) =>
-            prev.map((m) => (m.id === id ? { ...m, ...updates } : m))
-        );
+        // setMenus((prev) =>
+        //     prev.map((m) => (m.id === id ? { ...m, ...updates } : m))
+        // );
+        updateMenuApi(id, updates);
     };
 
     const deleteMenu = (id) => {
         if (!window.confirm("Delete this item?")) return;
-        setMenus((prev) => prev.filter((m) => m.id !== id));
+        // setMenus((prev) => prev.filter((m) => m.id !== id));
+        deleteMenuApi(id);
     };
 
     if (loading) {

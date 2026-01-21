@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { LocalhostCred, TOKEN_KEY } from "../../constatns/api";
 
 const AdminLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const titleMap = {
   "/admin/dashboard": "Dashboard",
@@ -11,6 +13,17 @@ const AdminLayout = ({ children }) => {
   "/admin/tables": "Table Management",
   "/admin/staffs": "Staff Management",
   "/admin/reports": "Reports",
+};
+
+
+  const handleLogout = () => {
+  // Clear auth data (adjust keys if needed)
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(LocalhostCred);
+
+  // Redirect to login
+  navigate('/staff/login')
+  
 };
 
 const location = useLocation();
@@ -86,6 +99,7 @@ const title = titleMap[location.pathname] || "Admin";
           <button
             className="px-4 py-1.5 rounded-md text-sm
             bg-indigo-600 text-white hover:bg-indigo-700 transition"
+            onClick={handleLogout}
           >
             Logout
           </button>

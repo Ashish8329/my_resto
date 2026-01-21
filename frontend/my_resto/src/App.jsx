@@ -14,6 +14,7 @@ import AdminMenu from './components/admin/Menu'
 import Table from './components/admin/Table'
 import Staff from './components/admin/Staff'
 import Report from './components/admin/Report'
+import Orders from './components/admin/Orders'
 
 function App() {
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index path='dashboard' element={<Dashboard />} />
-            <Route path="orders" element={<div>Orders</div>} />
+            <Route path="orders" element={<Orders />} />
             <Route path="menu" element={<AdminMenu />} />
             <Route path="tables" element={<Table />} />
             <Route path="staffs" element={<Staff /> } />

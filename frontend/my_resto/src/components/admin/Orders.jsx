@@ -1,9 +1,10 @@
 import React from 'react'
+import OrdersPage from './ui/order_ui/OrdersPage'
 
 const Orders = () => {
   return (
-    <div>
-      this is order crud
+    <div> 
+      <OrdersPage />
     </div>
   )
 }

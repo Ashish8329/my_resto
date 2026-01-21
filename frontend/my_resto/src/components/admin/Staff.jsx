@@ -1,9 +1,10 @@
 import React from 'react'
+import StaffPage from './ui/staff_ui/StaffPage'
 
 const Staff = () => {
   return (
     <div>
-      this is staff CRUD
+      <StaffPage />
     </div>
   )
 }

@@ -1,8 +1,7 @@
 import TableActiveToggle from "./TableActiveToggle";
 import TableQRButton from "./TableQRButton";
 
-
-const TableCard = ({ table }) => {
+const TableCard = ({ table, onDelete }) => {
   if (!table) return null;
 
   return (
@@ -10,14 +9,28 @@ const TableCard = ({ table }) => {
 
       {/* Rounded Table Card */}
       <div
-        className={`w-28 h-28 rounded-2xl flex flex-col items-center justify-center
+        className={`relative w-28 h-28 rounded-2xl
+        flex flex-col items-center justify-center
         shadow-sm border transition
         ${
-          table.active
+          table.is_active
             ? "bg-white border-slate-200"
             : "bg-slate-100 border-slate-300 opacity-60"
         }`}
       >
+        {/* Delete button */}
+        <button
+          onClick={() => onDelete(table.id)}
+          className="absolute top-1.5 right-1.5
+          w-5 h-5 rounded-full
+          flex items-center justify-center
+          text-slate-400 hover:text-red-500 hover:bg-red-50
+          transition text-xs"
+          title="Delete table"
+        >
+          ✕
+        </button>
+
         <span className="text-[10px] text-slate-400">TABLE</span>
         <span className="text-2xl font-semibold text-slate-800">
           {table.table_number}

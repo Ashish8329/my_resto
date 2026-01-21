@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TableCard from "./TableCard";
 import AddTableCard from "./AddTableCard";
 import CreateTableModal from "./CreateTableModal";
-import { get, post } from "../../../../api/api";
+import { del, get, post } from "../../../../api/api";
 import { ENDPOINTS, LocalhostCred } from "../../../../constatns/api";
 import { get_localstorage } from "../../../utils";
 
@@ -14,6 +14,21 @@ const TablesPage = () => {
   const [loading, setLoading] = useState(false);
 
   const restaurant_id = get_localstorage('restaurant_id');
+
+  const handleDeleteTable = (tableId) => {
+    setTables((prevTables) =>
+      prevTables.filter((table) => table.id !== tableId)
+    );
+
+    async function deleteTable() {
+      try {
+        res = await del(`${ENDPOINTS.TABLE_ENDPOINT}/${tableId}/`);
+      } catch (error) {
+        console.error("Error deleting table:", error);
+      }
+    }
+    deleteTable();
+  }
 
 
   const addTable = (table) => {
@@ -59,7 +74,10 @@ const TablesPage = () => {
         <AddTableCard onClick={() => setShowModal(true)} />
 
         {tables.map((table) => (
-          <TableCard key={table.id} table={table} />
+          <TableCard key={table.id} 
+          table={table}
+          onDelete={handleDeleteTable} 
+          />
         ))}
       </div>
 
@@ -67,6 +85,7 @@ const TablesPage = () => {
         <CreateTableModal
           onClose={() => setShowModal(false)}
           onCreate={addTable}
+          
         />
       )}
     </>

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuList from "./MenuList";
 import MenuFormModal from "./MenuFormModal";
 import PageHeader from "./PageHeader";
 import MenuTableHeader from "./MenuTableHeader";
+import { get } from "../../../../api/api";
+import { ENDPOINTS } from "../../../../constatns/api";
+import { get_localstorage } from "../../../utils";
 
 
 const initialMenus = [
@@ -27,6 +30,28 @@ const initialMenus = [
 const MenuPage = () => {
     const [menus, setMenus] = useState(initialMenus);
     const [showModal, setShowModal] = useState(false);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);    
+
+    const restaurant_id = get_localstorage('restaurant_id');
+
+    useEffect (() => {
+        
+        async function fetchMenus() {
+            try {
+                setLoading(true);
+                const data = await get(ENDPOINTS.MANAGE_MENU_ITEMS + '?restaurant_id=' + restaurant_id);
+                setMenus(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching menus:', error);
+                setError('Failed to load menu items.');
+                setLoading(false);
+            }
+        }
+        fetchMenus();
+    }, []
+);
 
     const addMenu = (menu) => {
         setMenus((prev) => [...prev, { ...menu, id: Date.now() }]);
@@ -42,6 +67,14 @@ const MenuPage = () => {
         if (!window.confirm("Delete this item?")) return;
         setMenus((prev) => prev.filter((m) => m.id !== id));
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <>

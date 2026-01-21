@@ -10,7 +10,10 @@ export const ENDPOINTS = {
 
   // Table 
   TABLE_QR_UPDATE: "/restaurants/update-qr-code",
-  TABLE_ENDPOINT : "/restaurant/restaurant-tables"
+  TABLE_ENDPOINT : "/restaurant/restaurant-tables",
+
+  // menu 
+  MANAGE_MENU_ITEMS: "/menu/manage-items/",
 }
 
 export const LocalhostCred = 'qr_context'

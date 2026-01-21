@@ -92,7 +92,8 @@ class LoginView(APIView):
 
         response = Response({
             "access_token" : str(refresh.access_token),
-            "user_role" : user_role
+            "user_role" : user_role,
+            "restaurant_id": user.restaurant.id if user.restaurant else None
         },
         status=200)
 

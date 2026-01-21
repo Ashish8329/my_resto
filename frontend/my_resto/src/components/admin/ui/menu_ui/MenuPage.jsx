@@ -3,7 +3,7 @@ import MenuList from "./MenuList";
 import MenuFormModal from "./MenuFormModal";
 import PageHeader from "./PageHeader";
 import MenuTableHeader from "./MenuTableHeader";
-import { get } from "../../../../api/api";
+import { get, post } from "../../../../api/api";
 import { ENDPOINTS } from "../../../../constatns/api";
 import { get_localstorage } from "../../../utils";
 
@@ -35,6 +35,19 @@ const MenuPage = () => {
 
     const restaurant_id = get_localstorage('restaurant_id');
 
+    // update api 
+    async function addMenuApi(menu) {
+        try {
+            const restaurant_data = { restaurant: restaurant_id };
+            const data = await post(ENDPOINTS.MANAGE_MENU_ITEMS, { ...menu, ...restaurant_data });
+            setMenus((prev) => [...prev, data]);
+        } catch (error) {   
+            console.error('Error adding menu:', error);
+            setError('Failed to add menu item.');
+        }
+    }
+
+
     useEffect (() => {
         
         async function fetchMenus() {
@@ -54,7 +67,7 @@ const MenuPage = () => {
 );
 
     const addMenu = (menu) => {
-        setMenus((prev) => [...prev, { ...menu, id: Date.now() }]);
+        addMenuApi(menu);
     };
 
     const updateMenu = (id, updates) => {

@@ -8,8 +8,8 @@ const CreateTableModal = ({ onClose, onCreate }) => {
 
     onCreate({
       id: Date.now(),
-      number: Number(number),
-      active: true,
+      table_number: Number(number),
+      is_active: true,
     });
 
     onClose();

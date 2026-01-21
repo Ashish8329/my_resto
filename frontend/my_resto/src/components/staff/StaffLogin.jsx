@@ -30,6 +30,7 @@ const StaffLogin = () => {
       setError('something went wrong')
     }
     set_localstorage(TOKEN_KEY, res.access_token)
+    set_localstorage('restaurant_id', res.restaurant_id)
 
     if (res.user_role === ADMIN_KEY) {
       set_localstorage('ROLE', 'admin')

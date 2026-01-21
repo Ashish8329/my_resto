@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import TableCard from "./TableCard";
 import AddTableCard from "./AddTableCard";
 import CreateTableModal from "./CreateTableModal";
-import { get } from "../../../../api/api";
-import { ENDPOINTS } from "../../../../constatns/api";
+import { get, post } from "../../../../api/api";
+import { ENDPOINTS, LocalhostCred } from "../../../../constatns/api";
+import { get_localstorage } from "../../../utils";
 
 
 const TablesPage = () => {
@@ -12,15 +13,35 @@ const TablesPage = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const restaurant_id = get_localstorage('restaurant_id');
+
+
   const addTable = (table) => {
     setTables((prev) => [...prev, table]);
+
+    async function postTable() {
+      try {
+        setLoading(true);
+        await post(`${ENDPOINTS.TABLE_ENDPOINT}/`, {
+          table_number: table.table_number,
+          restaurant: restaurant_id, 
+        });
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error creating table:", error);
+        setLoading(false);
+      }
+    }
+
+    postTable();
   };
 
   useEffect (() => {
     // Fetch existing tables from the server
     const fetchTables = async () => {
       try {
-        const data = await get(ENDPOINTS.TABLE_ENDPOINT + "?restaurant_id=2");
+        const data = await get(ENDPOINTS.TABLE_ENDPOINT + "?restaurant_id=" + restaurant_id);
          
         setTables(data);
       } catch (error) {

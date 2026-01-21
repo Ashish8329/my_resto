@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TableCard from "./TableCard";
 import AddTableCard from "./AddTableCard";
 import CreateTableModal from "./CreateTableModal";
-import { del, get, post } from "../../../../api/api";
+import { del, get, patch, post } from "../../../../api/api";
 import { ENDPOINTS, LocalhostCred } from "../../../../constatns/api";
 import { get_localstorage } from "../../../utils";
 
@@ -30,6 +30,21 @@ const TablesPage = () => {
     deleteTable();
   }
 
+  const handleUpdateTable = (tableId) => {
+    // Function to handle table updates if needed
+
+    async function updateTable() {
+      try {
+        
+        res = await patch(`${ENDPOINTS.TABLE_ENDPOINT}/${tableId}/`, {
+          is_active: !tables.find((table) => table.id === tableId).is_active,
+        });
+      
+      } catch (error) {
+        console.error("Error updating table:", error);
+      }
+  }
+    updateTable();}
 
   const addTable = (table) => {
     setTables((prev) => [...prev, table]);
@@ -77,6 +92,7 @@ const TablesPage = () => {
           <TableCard key={table.id} 
           table={table}
           onDelete={handleDeleteTable} 
+          onUpdate={handleUpdateTable}
           />
         ))}
       </div>

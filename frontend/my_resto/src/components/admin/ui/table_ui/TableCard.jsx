@@ -1,7 +1,7 @@
 import TableActiveToggle from "./TableActiveToggle";
 import TableQRButton from "./TableQRButton";
 
-const TableCard = ({ table, onDelete }) => {
+const TableCard = ({ table, onDelete, onUpdate }) => {
   if (!table) return null;
 
   return (
@@ -38,7 +38,7 @@ const TableCard = ({ table, onDelete }) => {
       </div>
 
       <TableQRButton qrUrl={table.QR_code}  tableId={table.id} disabled={!table.is_active} />
-      <TableActiveToggle table={table} />
+      <TableActiveToggle table={table} handleUpdate={onUpdate} />
     </div>
   );
 };

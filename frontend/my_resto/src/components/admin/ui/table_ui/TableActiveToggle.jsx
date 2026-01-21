@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-const TableActiveToggle = ({ table }) => {
+const TableActiveToggle = ({ table, handleUpdate }) => {
   const [active, setActive] = useState(table.is_active);
 
   const toggleStatus = () => {
     setActive(!active);
-    console.log("Table active:", !active);
-    // API call later
+    if (handleUpdate) {
+      handleUpdate(table.id, !active);
+    }
   };
 
   return (

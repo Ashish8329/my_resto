@@ -37,7 +37,7 @@ const TableCard = ({ table, onDelete }) => {
         </span>
       </div>
 
-      <TableQRButton tableId={table.id} disabled={!table.is_active} />
+      <TableQRButton qrUrl={table.QR_code}  tableId={table.id} disabled={!table.is_active} />
       <TableActiveToggle table={table} />
     </div>
   );

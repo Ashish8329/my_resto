@@ -1,16 +1,42 @@
 import { useState } from "react";
 
-const TableQRButton = ({ tableId, disabled }) => {
+const TableQRButton = ({ tableId, qrUrl, disabled }) => {
   const [loading, setLoading] = useState(false);
 
   const handleGetQR = async () => {
     setLoading(true);
 
-    // simulate API
-    setTimeout(() => {
+    try {
+      let downloadUrl = qrUrl;
+
+      // If QR not generated yet → call API
+      if (!downloadUrl) {
+        // 🔴 replace with real API later
+        const res = await new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve({
+                qr_url: `https://api.example.com/qr/table-${tableId}.png`,
+              }),
+            1200
+          )
+        );
+
+        downloadUrl = res.qr_url;
+      }
+
+      // 🔽 Trigger download
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = `table-${tableId}-qr.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("QR download failed", err);
+    } finally {
       setLoading(false);
-      console.log("QR fetched for table:", tableId);
-    }, 1500);
+    }
   };
 
   return (
@@ -27,7 +53,7 @@ const TableQRButton = ({ tableId, disabled }) => {
       {loading ? (
         <span className="flex items-center gap-2">
           <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          Generating
+          Downloading
         </span>
       ) : (
         "Get QR"

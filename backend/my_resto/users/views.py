@@ -117,4 +117,9 @@ class UserAdminViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated,]
 
-    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        restaurant_id = self.request.query_params.get('restaurant_id')  
+        if restaurant_id:
+            queryset = queryset.filter(restaurant__id=restaurant_id)
+        return queryset

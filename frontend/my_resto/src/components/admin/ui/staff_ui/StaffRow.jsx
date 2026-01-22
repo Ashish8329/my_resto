@@ -1,46 +1,62 @@
 import StaffEditInline from "./StaffEditInline";
 import StaffRoleSelect from "./StaffRoleSelect";
-import StaffActiveToggle from "./StaffActiveToggle";
+import StaffStatusSelect from "./StaffStatusSelect";
 
 const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
   return (
-    <div className="grid grid-cols-7 items-center px-4 py-3 border-b text-sm bg-white">
-  <StaffEditInline
-    value={staff.name}
-    onSave={(v) => onUpdate(staff.id, { name: v })}
-  />
+    <div
+      className="
+        grid grid-cols-7 gap-x-6
+        items-center px-4 py-3
+        border-b text-sm bg-white
+        min-h-[56px]
+      "
+    >
+      {/* Name */}
+      <StaffEditInline
+        value={staff.name}
+        onSave={(v) => onUpdate(staff.id, { name: v })}
+      />
 
-  <StaffEditInline
-    value={staff.phone}
-    onSave={(v) => onUpdate(staff.id, { phone: v })}
-  />
+      {/* Username */}
+      <StaffEditInline
+        value={staff.username}
+        onSave={(v) => onUpdate(staff.id, { username: v })}
+      />
 
-  <StaffRoleSelect
-    value={staff.role}
-    onChange={(v) => onUpdate(staff.id, { role: v })}
-  />
+      {/* Password (masked) */}
+      <StaffEditInline
+        value="••••••••"
+        placeholder="Set new password"
+        onSave={(v) => onUpdate(staff.id, { password: v })}
+      />
 
-  <span className="text-slate-500">
-    {new Date(staff.date_joined).toLocaleDateString()}
-  </span>
+      {/* Phone */}
+      <StaffEditInline
+        value={staff.phone}
+        onSave={(v) => onUpdate(staff.id, { phone: v })}
+      />
 
-  <StaffActiveToggle
-    value={staff.is_active}
-    onChange={(v) => onUpdate(staff.id, { is_active: v })}
-  />
+      {/* Role */}
+      <StaffRoleSelect
+        value={staff.role}
+        onChange={(v) => onUpdate(staff.id, { role: v })}
+      />
 
-  <div className="col-span-2 text-right">
-    {staff.is_active && (
-      <button
-        onClick={() => onDeactivate(staff.id)}
-        className="text-xs text-red-500 hover:underline"
-      >
-        Deactivate
-      </button>
-    )}
-  </div>
-</div>
+      {/* Date Joined */}
+      <span className="text-slate-500 whitespace-nowrap">
+        {new Date(staff.date_joined).toLocaleDateString()}
+      </span>
 
+      {/* Actions */}
+      <div>
+        <StaffStatusSelect
+          value={staff.is_active}
+          onChange={(v) => onUpdate(staff.id, { is_active: v })}
+        />
+
+      </div>
+    </div>
   );
 };
 

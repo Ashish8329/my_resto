@@ -5,11 +5,12 @@ const StaffTableHeader = () => {
   bg-slate-50 border border-slate-200 rounded-t-lg"
         >
             <span>Name</span>
+            <span>Username</span>
+            <span>Password</span>
             <span>Phone</span>
             <span>Role</span>
             <span>Joined</span>
             <span>Status</span>
-            <span className="col-span-2 text-right">Actions</span>
         </div>
 
     );

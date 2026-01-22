@@ -12,6 +12,8 @@ const initialStaff = [
     role: "Chef",
     is_active: true,
     date_joined: "2024-01-12",
+    username: "rahulsharma",
+    password: "securepassword",
   },
   {
     id: 2,
@@ -20,7 +22,9 @@ const initialStaff = [
     role: "Waiter",
     is_active: false,
     date_joined: "2023-11-02",
-    },
+    username: "rahulsharma",
+    password: "securepassword",
+  },
 ];
 
 

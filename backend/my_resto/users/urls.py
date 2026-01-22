@@ -1,11 +1,11 @@
 from django.urls import path, include
-from .views import scan_qr, get_chef_orders, LoginView
+from .views import scan_qr, get_chef_orders, LoginView, UserAdminViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt import views as jwt_views
 
 router = DefaultRouter()
 
-# router.register(f'login', LoginView, basename='login')
+router.register(f'', UserAdminViewSet, basename='login')
 
 urlpatterns = [
     path('chef/orders/<int:restaurant_id>', get_chef_orders, name='chief-orders'),

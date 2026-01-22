@@ -8,6 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from orders.models import Order, OrderItem
 from base.choices import OrderStatus, UserRole
 from datetime import datetime, timedelta, timezone
+from rest_framework import viewsets
+from .models import User
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
@@ -106,3 +110,11 @@ class LoginView(APIView):
         )
 
         return response
+
+
+class UserAdminViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
+
+    

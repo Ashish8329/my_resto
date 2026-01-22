@@ -1,9 +1,8 @@
-const roles = ["Admin", "Chef", "Waiter"];
+const roles = ["Admin", "Chef"];
 
 const roleStyles = {
   Admin: "bg-purple-100 text-purple-700",
   Chef: "bg-green-100 text-green-700",
-  Waiter: "bg-blue-100 text-blue-700",
 };
 
 const StaffRoleSelect = ({ value, onChange }) => {

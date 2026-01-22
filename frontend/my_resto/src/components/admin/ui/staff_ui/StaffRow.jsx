@@ -3,7 +3,12 @@ import StaffRoleSelect from "./StaffRoleSelect";
 import StaffStatusSelect from "./StaffStatusSelect";
 
 const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
-  console.log("Rendering StaffRow for:", staff);
+  if(staff.groups.includes(1)) {
+    staff.role = 'Admin';
+  }
+  else if(staff.groups.includes(2)) {
+    staff.role = 'Chef';
+  }
   return (
     <div
       className="

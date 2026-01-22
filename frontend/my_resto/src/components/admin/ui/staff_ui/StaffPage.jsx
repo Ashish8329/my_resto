@@ -4,7 +4,7 @@ import StaffTableHeader from "./StaffTableHeader";
 import StaffFormModal from "./StaffFormModal";
 import PageHeader from "../menu_ui/PageHeader";
 import { get_localstorage } from "../../../utils";
-import { del, get, post, put } from "../../../../api/api";
+import { del, get, patch, post, put } from "../../../../api/api";
 import { ENDPOINTS } from "../../../../constatns/api";
 
 
@@ -19,8 +19,8 @@ const StaffPage = () => {
 
   async function fetchStaffs() {
     const data = await get(ENDPOINTS.USER + `?restaurant_id=${restaurant_id}`);
-    console.log('--- fetched staffs ---', data);
     setStaffs(data);
+    
   }
 
     // update api 
@@ -37,11 +37,23 @@ const StaffPage = () => {
 
     async function updateStaffApi(id, updates) {
         try {
-            const restaurant_data = { restaurant: restaurant_id };
-            const data = await put(ENDPOINTS.USER + '/' + id + '/', { ...updates, ...restaurant_data });
+          // if update consist of role fix it 
+          if (updates.role) {
+            if (updates.role === 'Chef') {
+              updates.groups = [2]
+          }
+          else if (updates.role === 'Admin') {
+              updates.groups = [1]
+          }
+          delete updates.role; // remove role from updates to avoid confusion
+        }
+
+          setLoading(true);
+            const data = await patch(ENDPOINTS.USER + '/' + id + '/', { ...updates });
             setStaffs((prev) =>
                 prev.map((s) => (s.id === id ? { ...s, ...data } : s))
             );
+            setLoading(false);
         } catch (error) {
             console.error('Error updating staff:', error);
             setError('Failed to update staff item.');

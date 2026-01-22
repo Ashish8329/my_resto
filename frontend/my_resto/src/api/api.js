@@ -4,7 +4,6 @@ import { ADMIN_KEY, LocalhostCred, TOKEN_KEY } from "../constatns/api"
 const BASE_URL = import.meta.env.VITE_API_URL
 
 async function handleResponse(res) {
-
   // 🚨 Handle Unauthorized globally
   if (res.status === 401) {
     localStorage.removeItem(TOKEN_KEY)
@@ -53,6 +52,18 @@ export async function post(url, body) {
 export async function put(url, body) {
   const res = await fetch(`${BASE_URL}${url}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(),
+    },
+    body: JSON.stringify(body),
+  })
+  return handleResponse(res)
+}
+
+export async function patch(url, body) {
+  const res = await fetch(`${BASE_URL}${url}`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       ...authHeader(),

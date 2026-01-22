@@ -39,6 +39,13 @@ def get_chef_orders(request, restaurant_id):
     """
     Returns active kitchen orders
     """
+    user = request.user
+    user_gp = list(user.groups.values_list('name', flat=True))
+    if UserRole.OWNER.value in user_gp:
+        user_role = UserRole.OWNER
+    else:
+        user_role = UserRole.CHEF
+
     orders = (
         Order.objects
         .filter(
@@ -59,16 +66,24 @@ def get_chef_orders(request, restaurant_id):
         for oi in order.items.all():
             items.append({
                 "item_name": oi.menu_item.name,
+                **({"price": oi.menu_item.price * oi.quantity} if user_role == UserRole.OWNER else {}),
                 "quantity": oi.quantity
             })
 
-        res.append({
+        data = {
             "order_id": order.id,
             "table_id": order.table.id,
             "status": order.status,
             "time": f"{minutes_ago} min ago",
             "items": items
-        })
+        }
+
+        if user_role == UserRole.OWNER:
+            data["total_price"] = order.total_amount
+            data['created_at'] = order.created_at.strftime("%H:%M:%S")
+            del data["time"]
+
+        res.append(data)
 
     return Response(res)
 

@@ -1,7 +1,10 @@
 // orders/OrdersPage.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrdersList from "./OrdersList";
 import OrderItemsModal from "./OrderItemsModal";
+import { get } from "../../../../api/api";
+import { ENDPOINTS } from "../../../../constatns/api";
+import { get_localstorage } from "../../../utils";
 
 
 const OrdersPage = () => {
@@ -28,8 +31,36 @@ const OrdersPage = () => {
       ],
     },
   ]);
-
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const restaurant_id = get_localstorage('restaurant_id');
+  async function fetchOrders() {
+    setLoading(true);
+    try {
+      const data = await get(`${ENDPOINTS.GET_ORDER}/${restaurant_id}`);
+      setOrders(data);
+    } catch (err) {
+      setError("Failed to fetch orders.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+    
+
+  if (loading) {
+    return <div>Loading orders...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
 
   return (
     <div className="p-4">

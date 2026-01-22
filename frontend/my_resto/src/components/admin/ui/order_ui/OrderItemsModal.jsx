@@ -14,9 +14,9 @@ const OrderItemsModal = ({ order, onClose }) => {
           {order.items.map((item, idx) => (
             <div key={idx} className="flex justify-between text-sm">
               <span>
-                {item.name} × {item.qty}
+                {item.item_name} × {item.quantity}
               </span>
-              <span>₹{item.price * item.qty}</span>
+              <span>₹{item.price * item.quantity}</span>
             </div>
           ))}
         </div>

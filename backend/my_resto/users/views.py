@@ -66,20 +66,20 @@ def get_chef_orders(request, restaurant_id):
         for oi in order.items.all():
             items.append({
                 "item_name": oi.menu_item.name,
-                **({"price": oi.menu_item.price * oi.quantity} if user_role == UserRole.OWNER else {}),
+                **({"price": oi.menu_item.price} if user_role == UserRole.OWNER else {}),
                 "quantity": oi.quantity
             })
 
         data = {
             "order_id": order.id,
-            "table_id": order.table.id,
+            "table_id": order.table.table_number,
             "status": order.status,
             "time": f"{minutes_ago} min ago",
             "items": items
         }
 
         if user_role == UserRole.OWNER:
-            data["total_price"] = order.total_amount
+            data["total_amount"] = order.total_amount
             data['created_at'] = order.created_at.strftime("%H:%M:%S")
             del data["time"]
 

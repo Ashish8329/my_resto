@@ -11,7 +11,7 @@ const OrdersList = ({ orders, onViewItems }) => {
         <div className="divide-y">
           {orders.map((order) => (
             <OrderRow
-              key={order.id}
+              key={order.order_id}
               order={order}
               onViewItems={onViewItems}
             />
@@ -23,7 +23,7 @@ const OrdersList = ({ orders, onViewItems }) => {
       <div className="md:hidden space-y-3">
         {orders.map((order) => (
           <OrderCard
-            key={order.id}
+            key={order.order_id}
             order={order}
             onViewItems={onViewItems}
           />

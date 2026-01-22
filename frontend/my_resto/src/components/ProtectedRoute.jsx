@@ -1,5 +1,5 @@
 import React from 'react'
-import { get_localstorage } from './utils'
+import { clear_localstorage, get_localstorage } from './utils'
 import { ADMIN_KEY, TOKEN_KEY } from '../constatns/api'
 import { Navigate, Outlet } from "react-router-dom";
 
@@ -9,6 +9,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
 
   if (!token) {
     return <Navigate to="/staff/login" replace />;
+    clear_localstorage()
   }
   console.log(allowedRoles, role)
 //   if (allowedRoles && !allowedRoles.includes(role)) {

@@ -32,6 +32,9 @@ const StaffLogin = () => {
     set_localstorage(TOKEN_KEY, res.access_token)
     set_localstorage('restaurant_id', res.restaurant_id)
 
+    // wiat for some time to let localstorage settle
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     if (res.user_role === ADMIN_KEY) {
       set_localstorage('ROLE', 'admin')
       navigate('/admin/dashboard')

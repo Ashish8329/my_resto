@@ -16,6 +16,10 @@ export function set_localstorage(key, data) {
     }
 }
 
+export function clear_localstorage() {
+    localStorage.clear();
+}
+
 export function remove_localstorage(key) {
     localStorage.removeItem(key);
 }

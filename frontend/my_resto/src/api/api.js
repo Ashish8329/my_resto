@@ -1,4 +1,4 @@
-import { get_localstorage } from "../components/utils"
+import { clear_localstorage, get_localstorage } from "../components/utils"
 import { ADMIN_KEY, LocalhostCred, TOKEN_KEY } from "../constatns/api"
 
 const BASE_URL = import.meta.env.VITE_API_URL
@@ -6,10 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL
 async function handleResponse(res) {
   // 🚨 Handle Unauthorized globally
   if (res.status === 401) {
-    localStorage.removeItem(TOKEN_KEY)
-
-    // optional: remove other auth data
-    localStorage.removeItem(LocalhostCred)
+    clear_localstorage()
 
     // redirect to login
     window.dispatchEvent(new Event("unauthorized"))

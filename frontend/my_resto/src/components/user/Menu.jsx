@@ -32,7 +32,8 @@ function Menu() {
   useEffect(() => {
     async function fetchOrders() {
       try {
-        const data = await get(`${ENDPOINTS.RESTAURANT_MENU}?restaurant_id=${restaurant_id}`)
+        const data = await get(`${ENDPOINTS.RESTAURANT_MENU}?restaurant_id=${restaurant_id}`) 
+        // TODO  fix table id here 
         setFoods(data)
       } catch (err) {
         setError(err.message)

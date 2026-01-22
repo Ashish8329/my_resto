@@ -14,16 +14,13 @@ const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
       "
     >
       {/* Name */}
-      <StaffEditInline
-        value={`${staff.first_name} ${staff.last_name}`}
-        onSave={(v) => onUpdate(staff.id, { name: v })}
-      />
+      <span className="text-slate-500 whitespace-nowrap">
+        {staff.first_name} {staff.last_name}
+      </span>
 
-      {/* Username */}
-      <StaffEditInline
-        value={staff.username}
-        onSave={(v) => onUpdate(staff.id, { username: v })}
-      />
+      <span className="text-slate-500 whitespace-nowrap">
+        {staff.username}
+      </span>
 
       {/* Password (masked) */}
       <StaffEditInline

@@ -7,32 +7,10 @@ import { get_localstorage } from "../../../utils";
 import { del, get, post, put } from "../../../../api/api";
 import { ENDPOINTS } from "../../../../constatns/api";
 
-const initialStaff = [
-  {
-    id: 1,
-    name: "Rahul Sharma",
-    phone: "9876543210",
-    role: "Chef",
-    is_active: true,
-    date_joined: "2024-01-12",
-    username: "rahulsharma",
-    password: "securepassword",
-  },
-  {
-    id: 2,
-    name: "Amit Verma",
-    phone: "9123456789",
-    role: "Waiter",
-    is_active: false,
-    date_joined: "2023-11-02",
-    username: "rahulsharma",
-    password: "securepassword",
-  },
-];
 
 
 const StaffPage = () => {
-  const [staffs, setStaffs] = useState(initialStaff);
+  const [staffs, setStaffs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);

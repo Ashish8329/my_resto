@@ -19,6 +19,13 @@ export const ENDPOINTS = {
   USER : "/staff",
 }
 
+export const USER_ROLES = {
+  1: "Owner",
+  2: "Chef",
+  // 3: "Chef",
+  // 4: "Waiter",
+}
+
 export const LocalhostCred = 'qr_context'
 export const TOKEN_KEY = 'My_Resto_token'
 export const ADMIN_KEY = 'OWNER'

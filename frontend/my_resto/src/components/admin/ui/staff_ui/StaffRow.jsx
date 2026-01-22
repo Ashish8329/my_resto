@@ -3,6 +3,7 @@ import StaffRoleSelect from "./StaffRoleSelect";
 import StaffStatusSelect from "./StaffStatusSelect";
 
 const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
+  console.log("Rendering StaffRow for:", staff);
   return (
     <div
       className="
@@ -14,7 +15,7 @@ const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
     >
       {/* Name */}
       <StaffEditInline
-        value={staff.name}
+        value={`${staff.first_name} ${staff.last_name}`}
         onSave={(v) => onUpdate(staff.id, { name: v })}
       />
 

@@ -1,27 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const StaffFormModal = ({ onClose, onSave }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("Chef");
 
-  const username =
-    firstName && lastName
-      ? `${firstName}.${lastName}`.toLowerCase()
-      : firstName.toLowerCase();
+  /* Prefill username when name changes (but editable) */
+  useEffect(() => {
+    if (!firstName) return;
+
+    const generated = lastName
+      ? `${firstName}.${lastName}`
+      : firstName;
+
+    setUsername((prev) =>
+      prev ? prev : generated.toLowerCase()
+    );
+  }, [firstName, lastName]);
 
   const isValid =
     firstName.trim().length > 0 &&
+    username.trim().length >= 4 &&
     password.length >= 6;
 
   const submit = () => {
     if (!isValid) return;
 
     onSave({
-      name: `${firstName.trim()} ${lastName.trim()}`,
-      username,
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      username: username.trim().toLowerCase(),
       password,
       phone: phone.trim(),
       role,
@@ -63,13 +74,17 @@ const StaffFormModal = ({ onClose, onSave }) => {
           />
         </Field>
 
-        {/* Auto Username Preview */}
-        <div className="mb-3 text-xs text-slate-500">
-          Username will be:
-          <span className="ml-1 font-medium text-slate-700">
-            {username || "—"}
-          </span>
-        </div>
+        {/* Username (editable) */}
+        <Field label="Username (min 4 chars)">
+          <input
+            value={username}
+            onChange={(e) =>
+              setUsername(e.target.value.toLowerCase())
+            }
+            className="input"
+            placeholder="john.doe"
+          />
+        </Field>
 
         {/* Password */}
         <Field label="Password (min 6 chars)">
@@ -98,9 +113,8 @@ const StaffFormModal = ({ onClose, onSave }) => {
             onChange={(e) => setRole(e.target.value)}
             className="input"
           >
-            <option value="Admin">Admin</option>
-            <option value="Chef">Chef</option>
-            <option value="Waiter">Waiter</option>
+            <option value="1">Admin</option>
+            <option value="2">Chef</option>
           </select>
         </Field>
 

@@ -14,6 +14,9 @@ export const ENDPOINTS = {
 
   // menu 
   MANAGE_MENU_ITEMS: "/menu/manage-items",
+
+  // user 
+  USER : "/staff",
 }
 
 export const LocalhostCred = 'qr_context'

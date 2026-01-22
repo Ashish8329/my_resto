@@ -6,7 +6,7 @@ const StaffCard = ({ staff, onUpdate, onDeactivate }) => {
     return (
         <div className="bg-white border rounded-xl p-4 shadow-sm">
             <StaffEditInline
-                value={staff.name}
+                value={staff.first_name + " " + staff.last_name}
                 onSave={(v) => onUpdate(staff.id, { name: v })}
             />
 

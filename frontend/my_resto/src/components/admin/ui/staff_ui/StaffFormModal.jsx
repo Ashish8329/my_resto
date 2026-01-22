@@ -1,23 +1,27 @@
 import { useState } from "react";
 
 const StaffFormModal = ({ onClose, onSave }) => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("Chef");
 
+  const username =
+    firstName && lastName
+      ? `${firstName}.${lastName}`.toLowerCase()
+      : firstName.toLowerCase();
+
   const isValid =
-    name.trim().length > 0 &&
-    username.trim().length >= 4 &&
+    firstName.trim().length > 0 &&
     password.length >= 6;
 
   const submit = () => {
     if (!isValid) return;
 
     onSave({
-      name: name.trim(),
-      username: username.trim(),
+      name: `${firstName.trim()} ${lastName.trim()}`,
+      username,
       password,
       phone: phone.trim(),
       role,
@@ -39,23 +43,33 @@ const StaffFormModal = ({ onClose, onSave }) => {
           Add Staff
         </h3>
 
-        {/* Name */}
-        <Field label="Full name">
+        {/* First Name */}
+        <Field label="First name">
           <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             className="input"
+            placeholder="John"
           />
         </Field>
 
-        {/* Username */}
-        <Field label="Username (min 4 chars)">
+        {/* Last Name */}
+        <Field label="Last name">
           <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value.toLowerCase())}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             className="input"
+            placeholder="Doe"
           />
         </Field>
+
+        {/* Auto Username Preview */}
+        <div className="mb-3 text-xs text-slate-500">
+          Username will be:
+          <span className="ml-1 font-medium text-slate-700">
+            {username || "—"}
+          </span>
+        </div>
 
         {/* Password */}
         <Field label="Password (min 6 chars)">
@@ -113,10 +127,11 @@ const StaffFormModal = ({ onClose, onSave }) => {
   );
 };
 
-/* Small helper for clean layout */
 const Field = ({ label, children }) => (
   <div className="mb-3">
-    <label className="mb-1 block text-xs text-slate-500">{label}</label>
+    <label className="mb-1 block text-xs text-slate-500">
+      {label}
+    </label>
     {children}
   </div>
 );

@@ -3,6 +3,7 @@ import OrderCard from "./OrderCard";
 import { ADMIN_KEY, API_BASE_URL, ENDPOINTS, LocalhostCred, TOKEN_KEY } from "../../constatns/api";
 import { get, put } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import { get_localstorage } from "../utils";
 
 const OrderDetails = () => {
     const [orders, setOrders] = useState([]);
@@ -11,7 +12,7 @@ const OrderDetails = () => {
 
     const navigate = useNavigate()
 
-    const restaurantId = 1; // for MVP (later from auth/context)
+    const restaurantId = get_localstorage('restaurant_id');
 
     const fetchOrders = async () => {
         try {

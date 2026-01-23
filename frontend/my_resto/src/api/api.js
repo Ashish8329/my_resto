@@ -4,28 +4,23 @@ import { ADMIN_KEY, LocalhostCred, TOKEN_KEY } from "../constatns/api"
 const BASE_URL = import.meta.env.VITE_API_URL
 
 async function handleResponse(res) {
-  // 🚨 Handle Unauthorized globally
+  const data = await res.json().catch(() => null);
+
   if (res.status === 401) {
-    clear_localstorage()
+    clear_localstorage();
 
-    // redirect to login
-    window.dispatchEvent(new Event("unauthorized"))
+    window.dispatchEvent(new Event("unauthorized"));
 
-    if (res.message) {
-      throw new Error(res.message)
-    }else {
-      return
-    }
+    throw new Error(data?.error || "Unauthorized");
   }
-
-  const data = await res.json().catch(() => null)
 
   if (!res.ok) {
-    throw new Error(data?.message || "Something went wrong")
+    throw new Error(data?.error || data?.message || "Something went wrong");
   }
 
-  return data
+  return data;
 }
+
 
 export async function get(url) {
   const res = await fetch(`${BASE_URL}${url}`, {

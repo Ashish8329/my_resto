@@ -96,7 +96,7 @@ class LoginView(APIView):
 
         if not user:
             return Response(
-                data = {'message' : 'Invalid credentials'},
+                data = {'error' : 'Invalid credentials'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
     

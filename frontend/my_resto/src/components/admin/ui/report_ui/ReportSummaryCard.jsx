@@ -6,25 +6,25 @@ const ReportSummaryCard = ({ data, range }) => {
 
       <p className="text-sm text-slate-700 leading-relaxed">
         For <span className="font-medium">{range.replaceAll("_", " ")}</span>,
-        you processed <span className="font-semibold">{data.totalOrders}</span>{" "}
+        you processed <span className="font-semibold">{data.total_orders}</span>{" "}
         orders generating a total revenue of{" "}
-        <span className="font-semibold">₹{data.revenue}</span>.
+        <span className="font-semibold">₹{data.total_revenue}</span>.
         The average order value was{" "}
-        <span className="font-semibold">₹{data.avgOrderValue}</span>.
+        <span className="font-semibold">₹{data.average_order_value}</span>.
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2 text-xs">
         <span className="px-2 py-1 rounded bg-slate-200">
-          Pending: {data.status.pending}
+          Pending: {data.today_status_summary.PENDING}
         </span>
         <span className="px-2 py-1 rounded bg-yellow-200">
-          Preparing: {data.status.preparing}
+          Preparing: {data.today_status_summary.IN_KITCHEN}
         </span>
         <span className="px-2 py-1 rounded bg-blue-200">
-          Ready: {data.status.ready}
+          Ready: {data.today_status_summary.READY}
         </span>
         <span className="px-2 py-1 rounded bg-green-200">
-          Served: {data.status.served}
+          Served: {data.today_status_summary.SERVED}
         </span>
       </div>
     </div>

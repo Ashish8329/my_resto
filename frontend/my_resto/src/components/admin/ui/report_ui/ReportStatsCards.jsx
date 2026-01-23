@@ -9,9 +9,9 @@ const StatCard = ({ label, value }) => (
 const ReportStatsCards = ({ data }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <StatCard label="Total Revenue" value={`₹${data.revenue}`} />
-      <StatCard label="Total Orders" value={data.totalOrders} />
-      <StatCard label="Avg Order Value" value={`₹${data.avgOrderValue}`} />
+      <StatCard label="Total Revenue" value={`₹${data.total_revenue}`} />
+      <StatCard label="Total Orders" value={data.total_orders} />
+      <StatCard label="Avg Order Value" value={`₹${data.average_order_value}`} />
     </div>
   );
 };

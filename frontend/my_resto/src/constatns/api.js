@@ -21,6 +21,9 @@ export const ENDPOINTS = {
   // order TODO FIX PATH FOR ADMIN AND STAFF
   GET_ORDER: "/staff/chef/orders",
 
+  // analytics 
+  ANALYTICS : "/order/analytics",
+
 }
 
 export const USER_ROLES = {

@@ -138,3 +138,14 @@ class UserAdminViewSet(viewsets.ModelViewSet):
         if restaurant_id:
             queryset = queryset.filter(restaurant__id=restaurant_id)
         return queryset
+
+    def create(self, request, *args, **kwargs):
+        password = request.data.get('password')
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        if password:
+            user.set_password(password)
+            user.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

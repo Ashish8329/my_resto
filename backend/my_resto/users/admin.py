@@ -4,4 +4,4 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseAdmin):
-    pass
+    list_display = ('id', 'username', 'restaurant', 'is_active', 'date_joined')

@@ -3,10 +3,10 @@ import StaffRoleSelect from "./StaffRoleSelect";
 import StaffStatusSelect from "./StaffStatusSelect";
 
 const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
-  if(staff.groups.includes(1)) {
+  if(staff?.groups?.includes(1)) {
     staff.role = 'Admin';
   }
-  else if(staff.groups.includes(2)) {
+  else if(staff?.groups?.includes(2)) {
     staff.role = 'Chef';
   }
   return (

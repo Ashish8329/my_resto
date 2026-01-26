@@ -15,6 +15,7 @@ import Table from './components/admin/Table'
 import Staff from './components/admin/Staff'
 import Report from './components/admin/Report'
 import Orders from './components/admin/Orders'
+import Test from './components/Test'
 
 function App() {
   const navigate = useNavigate()
@@ -32,6 +33,7 @@ function App() {
     <>
       <Routes>
         {/* Public */}
+        <Route index element={<Test />} />
         <Route path="/menu" element={<User />} />
         <Route path="/scan/:qrToken" element={<UserLanding />} />
         <Route path="/staff/login" element={<StaffLogin />} />

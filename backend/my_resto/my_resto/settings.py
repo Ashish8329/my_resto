@@ -28,9 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-pl1cxqxgw9v2ibbe&9deqoeva#^9qnvqgml(6xr^e0c=!lojs0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
 AUTH_USER_MODEL = "users.User"
 
 # Application definition
@@ -135,13 +134,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = "static/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -178,49 +170,59 @@ CORS_ALLOW_ALL_ORIGINS = True
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 
-# Supabase S3 Configuration
-AWS_S3_ENDPOINT_URL = os.getenv("SUPABASE_S3_ENDPOINT_URL")
-AWS_ACCESS_KEY_ID = os.getenv("SUPABASE_S3_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("SUPABASE_S3_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.getenv("SUPABASE_S3_BUCKET_NAME")
-AWS_S3_REGION_NAME = os.getenv(
-    "SUPABASE_S3_REGION_NAME"
-)  # e.g., 'us-east-1' or similar
-AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=86400",
-}
-AWS_QUERYSTRING_AUTH = False
+if DEBUG:
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [BASE_DIR / "static"]
 
-AWS_QUERYSTRING_AUTH = True
-AWS_DEFAULT_ACL = None  # IMPORTANT
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+
+else:
+    ALLOWED_HOSTS = ["my-resto-2apq.vercel.app",]
+
+    # Supabase S3 Configuration
+    AWS_S3_ENDPOINT_URL = os.getenv("SUPABASE_S3_ENDPOINT_URL")
+    AWS_ACCESS_KEY_ID = os.getenv("SUPABASE_S3_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("SUPABASE_S3_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("SUPABASE_S3_BUCKET_NAME")
+    AWS_S3_REGION_NAME = os.getenv(
+        "SUPABASE_S3_REGION_NAME"
+    )  # e.g., 'us-east-1' or similar
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+    AWS_QUERYSTRING_AUTH = False
+
+    AWS_QUERYSTRING_AUTH = True
+    AWS_DEFAULT_ACL = None  # IMPORTANT
 
 
-# Configure Default and Static Files Storage
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "endpoint_url": AWS_S3_ENDPOINT_URL,
-            "access_key": AWS_ACCESS_KEY_ID,
-            "secret_key": AWS_SECRET_ACCESS_KEY,
-            "bucket_name": AWS_STORAGE_BUCKET_NAME,
-            "region_name": AWS_S3_REGION_NAME,
-            "object_parameters": AWS_S3_OBJECT_PARAMETERS,
-            "querystring_auth": AWS_QUERYSTRING_AUTH,
-            "location": "media",
+    # Configure Default and Static Files Storage
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "endpoint_url": AWS_S3_ENDPOINT_URL,
+                "access_key": AWS_ACCESS_KEY_ID,
+                "secret_key": AWS_SECRET_ACCESS_KEY,
+                "bucket_name": AWS_STORAGE_BUCKET_NAME,
+                "region_name": AWS_S3_REGION_NAME,
+                "object_parameters": AWS_S3_OBJECT_PARAMETERS,
+                "querystring_auth": AWS_QUERYSTRING_AUTH,
+                "location": "media",
+            },
         },
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "endpoint_url": AWS_S3_ENDPOINT_URL,
-            "access_key": AWS_ACCESS_KEY_ID,
-            "secret_key": AWS_SECRET_ACCESS_KEY,  # 00
-            "bucket_name": AWS_STORAGE_BUCKET_NAME,
-            "region_name": AWS_S3_REGION_NAME,
-            "object_parameters": AWS_S3_OBJECT_PARAMETERS,
-            "querystring_auth": AWS_QUERYSTRING_AUTH,
-            "location": "static",
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+            "OPTIONS": {
+                "endpoint_url": AWS_S3_ENDPOINT_URL,
+                "access_key": AWS_ACCESS_KEY_ID,
+                "secret_key": AWS_SECRET_ACCESS_KEY,  # 00
+                "bucket_name": AWS_STORAGE_BUCKET_NAME,
+                "region_name": AWS_S3_REGION_NAME,
+                "object_parameters": AWS_S3_OBJECT_PARAMETERS,
+                "querystring_auth": AWS_QUERYSTRING_AUTH,
+                "location": "static",
+            },
         },
-    },
-}
+    }

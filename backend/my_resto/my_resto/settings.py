@@ -179,8 +179,8 @@ if DEBUG:
 
 else:
 
-    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
-    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS")
+    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
 
     # Supabase S3 Configuration

@@ -178,7 +178,10 @@ if DEBUG:
     MEDIA_ROOT = BASE_DIR / "media"
 
 else:
-    ALLOWED_HOSTS = ["my-resto-2apq.vercel.app",]
+
+    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
+    CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS")
+
 
     # Supabase S3 Configuration
     AWS_S3_ENDPOINT_URL = os.getenv("SUPABASE_S3_ENDPOINT_URL")

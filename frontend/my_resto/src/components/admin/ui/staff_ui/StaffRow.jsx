@@ -3,10 +3,10 @@ import StaffRoleSelect from "./StaffRoleSelect";
 import StaffStatusSelect from "./StaffStatusSelect";
 
 const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
-  if(staff?.groups?.includes(1)) {
+  if (staff?.groups?.includes(1)) {
     staff.role = 'Admin';
   }
-  else if(staff?.groups?.includes(2)) {
+  else if (staff?.groups?.includes(2)) {
     staff.role = 'Chef';
   }
   return (
@@ -28,23 +28,39 @@ const StaffRow = ({ staff, onUpdate, onDeactivate }) => {
       </span>
 
       {/* Password (masked) */}
-      <StaffEditInline
+
+      {staff.role === 'Admin' ?
+        <span className="text-slate-500 whitespace-nowrap">
+          {/* {staff.role} */}
+          ••••••••
+        </span>
+        :
+        <StaffEditInline
         value="••••••••"
         placeholder="Set new password"
         onSave={(v) => onUpdate(staff.id, { password: v })}
       />
+      }
+       
 
       {/* Phone */}
+
       <StaffEditInline
         value={staff.phone}
         onSave={(v) => onUpdate(staff.id, { phone: v })}
       />
 
       {/* Role */}
-      <StaffRoleSelect
-        value={staff.role}
-        onChange={(v) => onUpdate(staff.id, { role: v })}
-      />
+      {staff.role === 'Admin' ?
+        <span className="text-slate-500 whitespace-nowrap">
+          {staff.role}
+        </span>
+        :
+        <StaffRoleSelect
+          value={staff.role}
+          onChange={(v) => onUpdate(staff.id, { role: v })}
+        />
+      }
 
       {/* Date Joined */}
       <span className="text-slate-500 whitespace-nowrap">

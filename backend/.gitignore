@@ -8,7 +8,7 @@ venv/
 env/
 cmd
 
-
+flow.txt
 # Environment variables
 *.env
 *.venv

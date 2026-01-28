@@ -68,7 +68,7 @@ function FoodCard({
             {/* Image */}
             <div className="w-full sm:w-40 h-40 rounded-lg overflow-hidden">
               <img
-                src={food.image}
+                src={food.image_url}
                 alt={food.name}
                 className="w-full h-full object-cover"
               />

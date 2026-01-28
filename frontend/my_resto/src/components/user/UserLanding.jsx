@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { set_localstorage } from "../utils";
+const BASE_URL = import.meta.env.VITE_API_URL
 
 const UserLanding = () => {
   const { qrToken } = useParams();
@@ -13,7 +14,7 @@ const UserLanding = () => {
     const scanQR = async () => {
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/api/v1/staff/scan/${qrToken}/`
+          `${BASE_URL}/staff/scan/${qrToken}/`
         );
 
         if (!res.ok) {

@@ -195,8 +195,6 @@ else:
         "CacheControl": "max-age=86400",
     }
     AWS_QUERYSTRING_AUTH = False
-
-    AWS_QUERYSTRING_AUTH = True
     AWS_DEFAULT_ACL = None  # IMPORTANT
 
 

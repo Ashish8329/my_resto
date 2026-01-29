@@ -8,9 +8,6 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
-    is_active = models.BooleanField(
-        default=True 
-    )
     restaurant = models.ForeignKey(
         'restaurants.Restaurant',
         on_delete=models.SET_NULL,

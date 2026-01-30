@@ -10,6 +10,8 @@ function FoodCard({
 }) {
   const [open, setOpen] = useState(false)
 
+  const isAvailable = food.is_available
+
   return (
     <div className="w-full bg-white border rounded-xl shadow-sm overflow-hidden">
 
@@ -23,9 +25,16 @@ function FoodCard({
           ₹{food.price}
         </p>
 
-        {/* Add / Quantity Control */}
+        {/* Right Controls */}
         <div className="flex items-center gap-2">
-          {quantity === 0 ? (
+
+          {/* Availability / Cart Controls */}
+          {!isAvailable ? (
+            <span className="px-3 py-1 text-xs sm:text-sm font-medium
+                 text-orange-700 bg-orange-100 rounded-full">
+              Out of stock
+            </span>
+          ) : quantity === 0 ? (
             <button
               onClick={onAdd}
               className="px-4 py-1.5 text-sm font-medium border border-green-600 text-green-600 rounded-lg"
@@ -54,6 +63,7 @@ function FoodCard({
             </div>
           )}
 
+          {/* Expand Toggle */}
           <button onClick={() => setOpen(!open)}>
             {open ? <ChevronUp size={22} /> : <ChevronDown size={22} />}
           </button>
@@ -70,7 +80,9 @@ function FoodCard({
               <img
                 src={food.image_url}
                 alt={food.name}
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover ${
+                  !isAvailable ? "grayscale opacity-70" : ""
+                }`}
               />
             </div>
 
@@ -80,17 +92,32 @@ function FoodCard({
                 <h4 className="text-lg font-semibold">
                   {food.name}
                 </h4>
+
                 <p className="text-gray-600 text-sm mt-1">
                   {food.description}
                 </p>
+
                 <p className="mt-2 font-medium">
                   ₹{food.price}
                 </p>
+
+                {!isAvailable && (
+                  <p className="mt-2 text-sm font-medium text-red-600">
+                    This item is currently unavailable
+                  </p>
+                )}
               </div>
 
               {/* Bottom Controls */}
               <div className="mt-4">
-                {quantity === 0 ? (
+                {!isAvailable ? (
+                  <button
+                    disabled
+                    className="w-full sm:w-auto px-5 py-2 bg-gray-200 text-gray-500 rounded-lg cursor-not-allowed"
+                  >
+                    Unavailable
+                  </button>
+                ) : quantity === 0 ? (
                   <button
                     onClick={onAdd}
                     className="w-full sm:w-auto px-5 py-2 bg-green-600 text-white rounded-lg"
@@ -105,9 +132,11 @@ function FoodCard({
                     >
                       -
                     </button>
+
                     <span className="font-medium">
                       {quantity}
                     </span>
+
                     <button
                       onClick={onIncrement}
                       className="px-4 py-2 border rounded-lg"

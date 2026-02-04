@@ -7,7 +7,7 @@ from .models import Restaurant, RestoTable
 
 @admin.register(Restaurant)
 class RestaurantAdmin(BaseAdmin):
-    list_display = ("name", "is_active", "created_at")
+    list_display = ("id","name", "is_active", "created_at")
 
 
 @admin.register(RestoTable)

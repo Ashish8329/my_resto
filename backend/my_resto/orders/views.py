@@ -181,11 +181,11 @@ class AnalyticsViewSet(viewsets.ViewSet):
             orders = orders.filter(created_at__gte=start_date)
 
         total_revenue = (
-            orders.filter(is_active=True).aggregate(total=Sum("total_amount"))["total"]
+            orders.filter(is_active=True).exclude(status=OrderStatus.CANCELLED).aggregate(total=Sum("total_amount"))["total"]
             or 0
         )
         total_orders = orders.count()
-        average_order_value = total_revenue / total_orders if total_orders > 0 else 0
+        average_order_value = round(total_revenue / total_orders if total_orders > 0 else 0, 2)
 
         data = {
             "total_revenue": total_revenue,

@@ -31,8 +31,9 @@ const OrderDetails = () => {
 
     const handleLogout = () => {
     // Clear auth data (adjust keys if needed)
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(LocalhostCred);
+    // localStorage.removeItem(TOKEN_KEY);
+    // localStorage.removeItem(LocalhostCred);
+    localStorage.clear()
 
     // Redirect to login
     navigate('/staff/login')
